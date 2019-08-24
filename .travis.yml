@@ -1,18 +1,13 @@
 language: node_js
-
-node_js: "10"
-
+node_js: '10'
 branches:
   only:
-    - master
-    - stable
-
+  - master
+  - stable
 deploy:
   provider: heroku
   app: 
   api_key:
-    secure: 
-
-
+    secure: gr+3V4SRCLgsA51yldhHhqQYxyp/HeSCk9KcCFodjyfa3QPr3gQVN0Z9d4azo0EX4w9okLQOMim27ZddMRoa/0Kkegtf5wn4yE/8y058tqcKqvAsJ+KqihFMuAE/vVd8jKY56m5H4kEi0xeBjoMMgY5wkfNH5b/GGUKgi3Pe1l4nf3uhYc/pbu4L/gPl+/GvGFYaqqwq8h3Apq/7TcZAc6ah+MvPYwgJwnwQfxIekZSc02zxQuwPNiAQokgPWESHlEx/6phW/vpqtqrZWocahaq9E8DomdQRtyY7R04z1WTJOuJWAUwzKqsFV3UxdNvZyaS8Y3p19Tc452kWbjAbRVdygO9bJUiAO4LvM28PYutp124VpX4mUZW4Fd12BxXU+QbjuN2tTqJV6UbiTVPffS5/LKHIhOE7J20E4TiAUhjl4NqMkSOeJHiyCx1OJ+v1/HwoElfE1e/DF8iMQcHrILfFq8D9DrhKytVc/rwbWsIxLlTP+WRK6vllgqoGOk/gDwAS3eEvxDE2iytZAKbgl6WMtbou8ST6aTjVHn+TJudgfMtW8tLWeZjRH7HlHyw3VBS//ATI/CjpwSxdKq88WE4Hp+GBrBrHR+oEu7CAzxHthLRauLPg0cAqeJUGAbcdn7aDkCTvmaRourItHU5xYd6eUbpGpqtqVmT1F6lVz6c=
 notifications:
   webhooks: https://outlook.office.com/webhook/4e66265c-aba7-4b5d-a2db-37956469910a@5e022ca1-5c04-4f87-8db7-d588726274e3/TravisCI/40470a8e6831401a995d2e3a6f32642d/fd2d6b9e-f6aa-404f-9abd-e45bd873c577
