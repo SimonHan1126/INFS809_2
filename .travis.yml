@@ -1,3 +1,18 @@
-notifications:
+language: node_js
 
-webhooks: https://outlook.office.com/webhook/4e66265c-aba7-4b5d-a2db-37956469910a@5e022ca1-5c04-4f87-8db7-d588726274e3/TravisCI/40470a8e6831401a995d2e3a6f32642d/fd2d6b9e-f6aa-404f-9abd-e45bd873c577
+node_js: "10"
+
+branches:
+  only:
+    - master
+    - stable
+
+deploy:
+  provider: heroku
+  app: 
+  api_key:
+    secure: 
+
+
+notifications:
+  webhooks: https://outlook.office.com/webhook/4e66265c-aba7-4b5d-a2db-37956469910a@5e022ca1-5c04-4f87-8db7-d588726274e3/TravisCI/40470a8e6831401a995d2e3a6f32642d/fd2d6b9e-f6aa-404f-9abd-e45bd873c577
