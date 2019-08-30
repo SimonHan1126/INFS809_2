@@ -1,1 +1,1 @@
-web: node app.js
+backend: node /serler-back/app.js
