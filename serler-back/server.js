@@ -20,6 +20,12 @@ connection.once("open", () => {
   console.log("Connected to MongoDB");
 });
 
+const excercisesRouter = require("./routes/excercises");
+const usersRouter = require("./routes/users");
+
+app.use("/excercises", excercisesRouter);
+app.use("/users", usersRouter);
+
 app.listen(port, () => {
   console.log(`server running on port: ${port}`);
 });
