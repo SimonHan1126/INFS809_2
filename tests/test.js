@@ -12,7 +12,7 @@ describe("Users", () => {
     it("should get all user record", done => {
       chai
         .request(app)
-        .get("/")
+        .get("/users")
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.be.a("object");
