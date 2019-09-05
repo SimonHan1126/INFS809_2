@@ -12,8 +12,11 @@ const port = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
-const uri = process.env.ATLAS_URI || "mongodb+srv://127.0.0.1";
-mongoose.connect(uri, { useNewUrlParser: true, useCreateIndex: true });
+//const uri = process.env.ATLAS_URI || "mongodb+srv://127.0.0.1";
+mongoose.connect(process.env.ATLAS_URI || "mongodb+srv://127.0.0.1", {
+  useNewUrlParser: true,
+  useCreateIndex: true
+});
 
 const connection = mongoose.connection;
 connection.once("open", () => {
