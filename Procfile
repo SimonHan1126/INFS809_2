@@ -1,1 +1,1 @@
-backend: node /serler-back/app.js
+backend: cd serler-back/ && node server.js
