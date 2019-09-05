@@ -6,18 +6,16 @@ import app from "../server";
 chai.use(chaiHttp);
 chai.should();
 
-describe("Users", () => {
-  describe("GET /users", () => {
-    // Test to get all students record
-    it("should get all user record", done => {
-      chai
-        .request(app)
-        .get("/users")
-        .end((err, res) => {
-          res.should.have.status(200);
-          res.body.should.be.a("object");
-          done();
-        });
-    });
-  });
-});
+// describe("Users", () => {
+//   describe("GET /users", () => {
+//     it("should get all user record", done => {
+//       chai
+//         .request(app)
+//         .get("/users")
+//         .end((err, res) => {
+//           res.should.have.status(200);
+//           done();
+//         });
+//     });
+//   });
+// });
