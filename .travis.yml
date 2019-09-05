@@ -1,15 +1,15 @@
 language: node_js
-node_js: "10"
+node_js: '10'
 branches:
   only:
-    - master
-    - stable
+  - master
+  - stable
 services:
-  - mongodb
+- mongodb
 deploy:
   provider: heroku
   app: infs809
   api_key:
-    secure: uXh7p0+cDhIfEjwJn6Aqzd90tXfVDyz6tb5CdNMFvPCjrHjPfLjRbTw7pd0lTZbmBibH5mV8nWeChjN3btadbtcbemeV8mnxch5Tm2V+l8nkspnz7P0013kfUn/LEInIIRfhKsscKnUJ++Hx4DI6eP2o2q1FSSWz4giVXRn8/nFLsF0j2y+/mOCU9EGmquz/QY5+7ztDwaikvYq+um9mFx0KSAGjdN7fcsSRbceXWZ6IL3iCFawvux3PHbaSJKL7SGjHrOE/a9S69i7LqW4sQvq8+PZW/c1l9L0S16P+06trYYYTC1zHEFRwsEzLq0wz6ZVprO1D90NEkU/y0Z8wyAiw6mNNUmy2rSH4vBe+AvtwQW3Jp3mwo+6BKcRjJNvHCqwyI8/jh4V/9Zb0o27y/reMK5/ayinktFuydJPpIfUXD1/iJBAFqG7wJn6ngGdOTDwP5Z5jPUTpAZrTmGnpr1ZFR4I17YwonAu4UoCe5eXDg1+t7cT5gIlhogq/K3EBMKU2XTRo2LfRmttq9UOv+lOKvZ6J8Ghb4Nr5UtLZoGOM9L2wvrQ6EPWs8oFqlCmkuc0wmsEDhIbaoVqL0sfpErLpFZJZfHRQRDubtZU1AWStE/SE0ZS77hEVbKy6y1ObPpkgAqYNCaYioRBBZkC+HszI+CWtFtHUwjQB+3kF/FY=
+    secure: ZOwOF3xuMPqcv1MakPFBEFpKcQI/hbfU+9Va5qOAbaf6xYv3n/2H8NolHT3OFqhSEIKI7RPoaKlM9T36fEmXqKlGW1zM7rE0+EzHu2bfI0TmLGbsDe+PTplpfuxw8C8dRiNEIry7Lhr7I8KhCch7H7NIP8SpuyHRD5eYvz5UgRnzjroKkSLm1RVk0LO/q9kxXMGae+nO5kXGEWJz5E1rAzuS9PVEf3H+1X1Ru4SMjI3BlJ8WpcARjPY3lTb1JlAeyg7VcBUwzRDbT2LxFOUuF2eSOjaxdLyWDIHqUZ5M0uVtK+rnqcwZmKvA/zoApmxOVI8f8UFNT4OLZkOmVyevU+idqj9KZrB9spcf6dNTpd0GgWSI8nbdKmNUMA1JqS2G2V6bCdMs4d55uLuDxa3mA6DfisXQXIIOu22S3RJHAAZ9u1IHVOtwSlKi2CWuhu+4CbJU1I2BYJz/8o8n/SW9Z6N51TPFoWEU8hiWXfdtPEyTChHC2YJJOvV2XL+YV14UvhsnWgOQUhCxTZPgQscOZ3/aXLNeNIK4t9qF1pep4b9rN5Bf20DwpWh4sP7OuW7UloBC+vmVQH2+0SUu3ZHiaWSs4WUDMWzvjoP8QytyXuJVm1sMgnVH/qw5YK81rBe2etVIBXRa8I2ta2PD7zevyS4PtMiMFyR/SQZeLQIhPHY=
 notifications:
   webhooks: https://outlook.office.com/webhook/4e66265c-aba7-4b5d-a2db-37956469910a@5e022ca1-5c04-4f87-8db7-d588726274e3/TravisCI/40470a8e6831401a995d2e3a6f32642d/fd2d6b9e-f6aa-404f-9abd-e45bd873c577
