@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
+/**
+ * Navbar GUI which holds functional components such as create user
+ * Created by James Hughes
+ * */
 export default class Navbar extends Component {
     render() {
         return (
