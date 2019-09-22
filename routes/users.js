@@ -17,12 +17,25 @@ router.route("/users").get((req, res) => {
  */
 router.route("/add").post((req, res) => {
     const username = req.body.username;
-    const password = req.body.username;
+    const password = req.body.password;
   const newUser = new User({ username, password });
   newUser
     .save()
     .then(() => res.json("User added!"))
     .catch(err => res.status(400).json("Error: " + err));
+});
+
+/*
+ * Defines a route to find a user and check their username and password matches
+ * Checks there is a usernames and password present which match
+ * Created by James Hughes
+ */
+router.route("/auth").get((req, res) => {
+    const username = req.body.username;
+    const password = req.body.password;
+    User.find({ username: { $exists: true }, password: { $exists: true } })
+        .then(users => res.json(users))
+        .catch(err => res.status(400).json("Error: " + err));
 });
 
 module.exports = router;

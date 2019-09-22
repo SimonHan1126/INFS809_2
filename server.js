@@ -13,7 +13,7 @@ app.use(cors());
 app.use(express.json());
 
 //REMEMBER TO WHITELIST THE IP OF THE CONNECTING SERVER IN MONGODB
-const uri = process.env.ATLAS_URI || "mongodb+srv://127.0.0.1";
+const uri = process.env.ATLAS_URI;
 mongoose.connect(uri, {
   useNewUrlParser: true,
   useCreateIndex: true
