@@ -31,7 +31,11 @@ const usersRouter = require("./routes/users");
 app.use("/excercises", excercisesRouter);
 app.use("/users", usersRouter);
 
+<<<<<<< HEAD
 declarationapp.use(express.static(path.join(__dirname, 'client/build')));
+=======
+app.use(express.static(path.join(__dirname, 'client/build')));
+>>>>>>> 0d9b26bffe364076498a9c553188f1b808966b2f
 
 if(process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, 'client/build')));
