@@ -3,6 +3,7 @@
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
+const path = require("path");
 
 require("dotenv").config();
 
@@ -29,6 +30,16 @@ const usersRouter = require("./routes/users");
 
 app.use("/excercises", excercisesRouter);
 app.use("/users", usersRouter);
+
+declarationapp.use(express.static(path.join(__dirname, 'client/build')));
+
+if(process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, 'client/build')));
+  app.get('*', (req, res) => {
+    res.sendfile(path.join(__dirname = 'client/build/index.html'));
+  })
+}
+app.get('*', (req, res) => {  res.sendFile(path.join(__dirname+'/client/public/index.html'));})
 
 app.listen(port, () => {
   console.log(`server running on port: ${port}`);
