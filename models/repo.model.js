@@ -8,7 +8,7 @@ const repoSchema = new Schema(
     {
 
         papername: { type: String, required: true },
-        pubdate: { type: Date, required: true },
+        //pubdate: { type: String, required: true },
         journal: { type: String, required: true },
         bibloref: { type: String, required: true },
         authors: { type: String, required: true },

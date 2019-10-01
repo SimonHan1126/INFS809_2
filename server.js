@@ -13,7 +13,8 @@ app.use(cors());
 app.use(express.json());
 
 //REMEMBER TO WHITELIST THE IP OF THE CONNECTING SERVER IN MONGODB
-const uri = process.env.ATLAS_URI;
+const uri = "mongodb+srv://trooblet:iS7YdlK7wXtQLq4b@cluster0-dhsg3.gcp.mongodb.net/test?retryWrites=true&w=majority";
+
 mongoose.connect(uri, {
   useNewUrlParser: true,
   useCreateIndex: true
@@ -26,9 +27,11 @@ connection.once("open", () => {
 
 const excercisesRouter = require("./routes/excercises");
 const usersRouter = require("./routes/users");
+const repoRouter = require("./routes/repo");
 
 app.use("/excercises", excercisesRouter);
 app.use("/users", usersRouter);
+app.use("/repo", repoRouter);
 
 app.listen(port, () => {
   console.log(`server running on port: ${port}`);
