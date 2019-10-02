@@ -46,7 +46,7 @@ export default class LoginUsers extends Component {
             //username: this.state.username,
            // password: this.state.password
         //}
-        axios.get('http://localhost:5000/users/users', {
+        axios.get('/users', {
             params: {
                 username: this.state.username,
                 password: this.state.password
