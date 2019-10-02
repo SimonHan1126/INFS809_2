@@ -10,8 +10,7 @@ const Article = require("../models/article.model");
  * MODERATOR ACCESSIBLE ONLY!!!
  * Created by James Hughes modified by Ben Dagnin
  */
-router.post("/", async (req, res) => {
-  console.log(req);
+router.post("/", (req, res) => {
   const article = new Article({
     //source: req.body.source,
     author: req.body.author,
@@ -29,12 +28,14 @@ router.post("/", async (req, res) => {
 
   console.log(article);
 
-  try {
-    const savedArticle = await article.save();
-    res.json(savedArticle);
-  } catch (err) {
-    res.status(400).json({ message: err });
-  }
+  article
+    .save()
+    .then(data => {
+      res.json(data);
+    })
+    .catch(err => {
+      res.status(400).json({ message: err });
+    });
 });
 
 /**
