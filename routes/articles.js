@@ -70,7 +70,7 @@ router.get("/:id", (req, res) => {
  * Allows searching through the API
  */
 router.post("/search", (req, res) => {
-  res.json(req.body.q);
+  res.json(req.body);
 });
 
 module.exports = router;
