@@ -67,10 +67,23 @@ router.get("/:id", (req, res) => {
 });
 
 /**
- * Allows searching through the API
+ * Allows searching articles through the API
  */
 router.post("/search", (req, res) => {
-  res.json(req.body);
+  /**
+   * https://mongoosejs.com/docs/api.html#model_Model.find
+   *
+   * // executes, name LIKE john and only selecting the "name" and "friends" fields
+   * MyModel.find({ name: /john/i }, 'name friends', function (err, docs) { })
+   */
+  Article.find(req.body)
+    .then(data => {
+      res.json(data);
+    })
+    .catch(err => {
+      res.status(400).json({ message: err });
+    });
+  //res.json(req.body);
 });
 
 module.exports = router;
