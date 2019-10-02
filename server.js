@@ -45,8 +45,8 @@ connection.once("open", () => {
 // }
 // app.get('/', (req, res) => {  res.sendFile(path.join(__dirname+'/client/public/index.html'));})
 
-const articleRouter = require("./routes/article");
-app.use("/article", articleRouter);
+const articleRouter = require("./routes/articles");
+app.use("/articles", articleRouter);
 
 app.listen(port, () => {
   console.log(`server running on port: ${port}`);
