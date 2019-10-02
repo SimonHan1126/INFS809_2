@@ -62,4 +62,11 @@ router.get("/:id", (req, res) => {
     });
 });
 
+/**
+ * Allows searching through the API
+ */
+router.post("/search/:q", (req, res) => {
+  res.json(req.body.q);
+});
+
 module.exports = router;
