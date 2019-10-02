@@ -44,8 +44,12 @@ router.post("/", (req, res) => {
  */
 router.get("/", (req, res) => {
   Article.find()
-    .then(repo => res.json(Article))
-    .catch(err => res.status(400).json("Error: " + err));
+    .then(data => {
+      res.json(data);
+    })
+    .catch(err => {
+      res.status(400).json({ message: err });
+    });
 });
 
 /**
