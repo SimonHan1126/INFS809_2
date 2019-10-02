@@ -48,9 +48,9 @@ router.get("/", (req, res) => {
  * Get a specific article by id
  * Created by Ben Dagnin
  */
-router.get("/:articleId", async (req, res) => {
+router.get("/:id", async (req, res) => {
   try {
-    const article = await Article.findById(req.params.articleId);
+    const article = await Article.findById(req.params.id);
     req.json(article);
   } catch (err) {
     req.status(400).json({ message: err });
