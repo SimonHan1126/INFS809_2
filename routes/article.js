@@ -12,18 +12,18 @@ const Article = require("../models/article.model");
  */
 router.post("/", async (req, res) => {
   const article = new Article({
-    source: req.body.source,
+    //source: req.body.source,
     author: req.body.author,
-    title: req.body.title,
-    publisher: req.body.publisher,
-    journal: req.body.journal,
-    date: req.body.date,
-    volume: req.body.volume,
-    number: req.body.number,
-    pagestart: req.body.pagestart,
-    pageend: req.body.pageend,
-    doi: req.body.doi,
-    field: req.body.field
+    title: req.body.title
+    // publisher: req.body.publisher,
+    // journal: req.body.journal,
+    // date: req.body.date,
+    // volume: req.body.volume,
+    // number: req.body.number,
+    // pagestart: req.body.pagestart,
+    // pageend: req.body.pageend,
+    // doi: req.body.doi,
+    // field: req.body.field
   });
 
   console.log(article);
