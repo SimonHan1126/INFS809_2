@@ -26,6 +26,8 @@ router.post("/", async (req, res) => {
     field: req.body.field
   });
 
+  console.log(article);
+
   try {
     const savedArticle = await article.save();
     res.json(savedArticle);
