@@ -15,8 +15,8 @@ const ArticleSchema = new Schema(
     date: { type: Date, required: true },
     volume: { type: String, required: true },
     number: { type: String, required: true },
-    pagestart: { type: Integer, required: true },
-    pageend: { type: Integer, required: true },
+    pagestart: { type: Number, required: true },
+    pageend: { type: Number, required: true },
     doi: { type: String, required: true },
     field: { type: String, required: true }
   },
