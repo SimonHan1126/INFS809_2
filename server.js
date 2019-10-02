@@ -1,8 +1,8 @@
 /*jshint esversion: 6*/
 
 const express = require("express");
-const cors = require("cors");
 const mongoose = require("mongoose");
+const cors = require("cors");
 const path = require("path");
 
 require("dotenv").config();
@@ -25,21 +25,26 @@ connection.once("open", () => {
   console.log("Connected to MongoDB");
 });
 
-const excercisesRouter = require("./routes/excercises");
-const usersRouter = require("./routes/users");
+//const excercisesRouter = require("./routes/excercises");
+//const usersRouter = require("./routes/users");
 
-app.use("/excercises", excercisesRouter);
-app.use("/users", usersRouter);
+//app.use("/excercises", excercisesRouter);
+//app.use("/users", usersRouter);
 
-app.use(express.static(path.join(__dirname, 'client/build')));
+//This is code for serving react through express
 
-if(process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, 'client/build')));
-  app.get('*', (req, res) => {
-    res.sendfile(path.join(__dirname = 'client/build/index.html'));
-  })
-}
-app.get('/', (req, res) => {  res.sendFile(path.join(__dirname+'/client/public/index.html'));})
+// app.use(express.static(path.join(__dirname, 'client/build')));
+
+// if(process.env.NODE_ENV === 'production') {
+//   app.use(express.static(path.join(__dirname, 'client/build')));
+//   app.get('*', (req, res) => {
+//     res.sendfile(path.join(__dirname = 'client/build/index.html'));
+//   })
+// }
+// app.get('/', (req, res) => {  res.sendFile(path.join(__dirname+'/client/public/index.html'));})
+
+const articleRouter = require("./routes/article");
+app.use("/articles", articleRouter);
 
 app.listen(port, () => {
   console.log(`server running on port: ${port}`);
