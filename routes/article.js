@@ -11,6 +11,7 @@ const Article = require("../models/article.model");
  * Created by James Hughes modified by Ben Dagnin
  */
 router.post("/", async (req, res) => {
+  console.log(req);
   const article = new Article({
     //source: req.body.source,
     author: req.body.author,
