@@ -27,10 +27,7 @@ connection.once("open", () => {
   console.log("Connected to MongoDB");
 });
 
-//const excercisesRouter = require("./routes/excercises");
 //const usersRouter = require("./routes/users");
-
-//app.use("/excercises", excercisesRouter);
 //app.use("/users", usersRouter);
 
 //This is code for serving react through express
