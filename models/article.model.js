@@ -12,7 +12,7 @@ const ArticleSchema = new Schema(
     title: { type: String, required: true },
     publisher: { type: String, required: false },
     journal: { type: String, required: true },
-    date: { type: Date, required: true },
+    date: { type: Date, required: true, default: Date.now },
     volume: { type: String, required: true },
     number: { type: String, required: true },
     pagestart: { type: Number, required: true },
