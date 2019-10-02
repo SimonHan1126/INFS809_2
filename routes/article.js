@@ -12,18 +12,18 @@ const Article = require("../models/article.model");
  */
 router.post("/", (req, res) => {
   const article = new Article({
-    //source: req.body.source,
+    source: req.body.source,
     author: req.body.author,
-    title: req.body.title
-    // publisher: req.body.publisher,
-    // journal: req.body.journal,
-    // date: req.body.date,
-    // volume: req.body.volume,
-    // number: req.body.number,
-    // pagestart: req.body.pagestart,
-    // pageend: req.body.pageend,
-    // doi: req.body.doi,
-    // field: req.body.field
+    title: req.body.title,
+    publisher: req.body.publisher,
+    journal: req.body.journal,
+    date: req.body.date,
+    volume: req.body.volume,
+    number: req.body.number,
+    pagestart: req.body.pagestart,
+    pageend: req.body.pageend,
+    doi: req.body.doi,
+    field: req.body.field
   });
 
   console.log(article);
@@ -52,13 +52,14 @@ router.get("/", (req, res) => {
  * Get a specific article by id
  * Created by Ben Dagnin
  */
-router.get("/:id", async (req, res) => {
-  try {
-    const article = await Article.findById(req.params.id);
-    req.json(article);
-  } catch (err) {
-    req.status(400).json({ message: err });
-  }
+router.get("/:id", (req, res) => {
+  Article.findById(req.params.id)
+    .then(data => {
+      res.json(data);
+    })
+    .catch(err => {
+      res.status(400).json({ message: err });
+    });
 });
 
 module.exports = router;
