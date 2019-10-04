@@ -7,10 +7,10 @@ const Schema = mongoose.Schema;
 
 const ArticleSchema = new Schema(
   {
-    source: { type: String, required: false },
     title: { type: String, required: true },
     author: { type: String, required: true },
     date: { type: Date, required: false },
+    source: { type: String, required: false },
     publisher: { type: String, required: false },
     journal: { type: String, required: false },
     volume: { type: String, required: false },

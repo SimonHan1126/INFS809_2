@@ -12,12 +12,12 @@ const Article = require("../models/article.model");
  */
 router.post("/", (req, res) => {
   const article = new Article({
-    source: req.body.source,
-    author: req.body.author,
     title: req.body.title,
+    author: req.body.author,
+    date: req.body.date,
+    source: req.body.source,
     publisher: req.body.publisher,
     journal: req.body.journal,
-    date: req.body.date,
     volume: req.body.volume,
     number: req.body.number,
     pagestart: req.body.pagestart,
