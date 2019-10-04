@@ -30,10 +30,10 @@ router.post("/", (req, res) => {
 
   article
     .save()
-    .then(data => {
+    .then((data) => {
       res.json(data);
     })
-    .catch(err => {
+    .catch((err) => {
       res.status(400).json({ message: err });
     });
 });
@@ -44,10 +44,10 @@ router.post("/", (req, res) => {
  */
 router.get("/", (req, res) => {
   Article.find()
-    .then(data => {
+    .then((data) => {
       res.json(data);
     })
-    .catch(err => {
+    .catch((err) => {
       res.status(400).json({ message: err });
     });
 });
@@ -58,10 +58,10 @@ router.get("/", (req, res) => {
  */
 router.get("/:id", (req, res) => {
   Article.findById(req.params.id)
-    .then(data => {
+    .then((data) => {
       res.json(data);
     })
-    .catch(err => {
+    .catch((err) => {
       res.status(400).json({ message: err });
     });
 });
@@ -77,10 +77,10 @@ router.post("/search", (req, res) => {
    * MyModel.find({ name: /john/i }, 'name friends', function (err, docs) { })
    */
   Article.find(req.body)
-    .then(data => {
+    .then((data) => {
       res.json(data);
     })
-    .catch(err => {
+    .catch((err) => {
       res.status(400).json({ message: err });
     });
   //res.json(req.body);

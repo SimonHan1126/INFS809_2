@@ -7,18 +7,18 @@ const Schema = mongoose.Schema;
 
 const ArticleSchema = new Schema(
   {
-    source: { type: String, required: true },
-    author: { type: String, required: true },
+    source: { type: String, required: false },
     title: { type: String, required: true },
+    author: { type: String, required: true },
+    date: { type: Date, required: false },
     publisher: { type: String, required: false },
-    journal: { type: String, required: true },
-    date: { type: Date, required: true, default: Date.now },
-    volume: { type: String, required: true },
-    number: { type: String, required: true },
-    pagestart: { type: Number, required: true },
-    pageend: { type: Number, required: true },
-    doi: { type: String, required: true },
-    field: { type: String, required: true }
+    journal: { type: String, required: false },
+    volume: { type: String, required: false },
+    number: { type: String, required: false },
+    pagestart: { type: Number, required: false },
+    pageend: { type: Number, required: false },
+    doi: { type: String, required: false },
+    field: { type: String, required: false }
   },
 
   {
