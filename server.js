@@ -27,6 +27,12 @@ connection.once("open", () => {
   console.log("Connected to MongoDB");
 });
 
+const articleRouter = require("./routes/articles");
+app.use("/articles", articleRouter);
+
+const reactRouter = require("./routes/reactrouter");
+app.use("*", reactRouter);
+
 //const usersRouter = require("./routes/users");
 //app.use("/users", usersRouter);
 
@@ -34,16 +40,16 @@ connection.once("open", () => {
 
 // app.use(express.static(path.join(__dirname, 'client/build')));
 
-// if(process.env.NODE_ENV === 'production') {
-//   app.use(express.static(path.join(__dirname, 'client/build')));
-//   app.get('*', (req, res) => {
-//     res.sendfile(path.join(__dirname = 'client/build/index.html'));
-//   })
+// if (process.env.NODE_ENV === "production") {
+//   app.use(express.static(path.join(__dirname, "client/build")));
+//   app.get("*", (req, res) => {
+//     res.sendfile(path.join((__dirname, "client/build/index.html")));
+//   });
 // }
-// app.get('/', (req, res) => {  res.sendFile(path.join(__dirname+'/client/public/index.html'));})
 
-const articleRouter = require("./routes/articles");
-app.use("/articles", articleRouter);
+// app.get("*", (req, res) => {
+//   res.sendFile(path.join(__dirname, "/client/public/index.html"));
+// });
 
 app.listen(port, () => {
   console.log(`server running on port: ${port}`);
