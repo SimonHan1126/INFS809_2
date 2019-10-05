@@ -14,7 +14,7 @@ router.post("/", (req, res) => {
   const article = new Article({
     address: req.body.address,
     annote: req.body.annote,
-    author: req.body.author,
+    author: req.body.author || req.params.author,
     booktitle: req.body.booktitle,
     chapter: req.body.chapter,
     crossref: req.body.crossref,
@@ -33,7 +33,7 @@ router.post("/", (req, res) => {
     publisher: req.body.publisher,
     school: req.body.school,
     series: req.body.series,
-    title: req.body.title,
+    title: req.body.title || req.params.title,
     type: req.body.type,
     volume: req.body.volume,
     year: req.body.year
