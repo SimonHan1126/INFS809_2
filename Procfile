@@ -1,1 +1,1 @@
-backend: node server.js
+backend: npm start
