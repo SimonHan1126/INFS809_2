@@ -17,6 +17,7 @@ app.use(bodyParser.json());
 
 //REMEMBER TO WHITELIST THE IP OF THE CONNECTING SERVER IN MONGODB
 const uri = process.env.ATLAS_URI || "mongodb+srv://127.0.0.1";
+//const uri = "mongodb+srv://trooblet:h8VKMShGXf8TlmUL@cluster0-dhsg3.gcp.mongodb.net/admin?retryWrites=true&w=majority";
 mongoose.connect(uri, {
   useNewUrlParser: true,
   useCreateIndex: true
