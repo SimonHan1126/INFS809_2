@@ -29,28 +29,14 @@ export default class RepositoryList extends Component {
 
         super(props);
 
-        this.onChangeSearch = this.onChangeSearch.bind(this);
+        
         this.state = {
 
-            search: []
+            search: [],
+            specSearch: ''
 
         };
-
-    }
-
-    onChangeSearch(e) {
-
-        this.setState({
-            //search: e.target.value
-        });
-
-    }
-
-    onSubmit(e) {
-
-        e.preventDefault();
-        axios.get('/')
-            .then(res => console.log(res.data));
+        this.onSubmit = this.onSubmit.bind(this);
 
     }
 
@@ -59,18 +45,19 @@ export default class RepositoryList extends Component {
      **/
     componentDidMount() {
 
-        axios.get('http://localhost:5000/articles/')
-            .then(response => {
+            axios.get('http://localhost:5000/articles/')
+                .then(response => {
 
-                this.setState({ search: response.data })
+                    this.setState({ search: response.data })
+                    console.log("Made it");
 
-            })
-            .catch((error) => {
+                })
+                .catch((error) => {
 
-                console.log(error);
+                    console.log(error);
 
-            });
-
+                });
+        
     }
 
     /**
@@ -79,9 +66,42 @@ export default class RepositoryList extends Component {
      * */
     articlesList() {
 
-        return this.state.search.map(currentArticle => {
-            return <Ele article={currentArticle} key={currentArticle._id} />;
-        })
+            //For every article in the list return a component in the table
+            return this.state.search.map(currentArticle => {
+                return <Ele article={currentArticle} key={currentArticle._id} />;
+            }); 
+
+    }
+
+    
+    /**
+     * What to do when button 'Search' is pressed
+     * Created by James Hughes
+     */
+    onSubmit(e) {
+
+        e.preventDefault();
+        console.log("f: " + this.state.specSearch);
+        axios.get('/')
+            .then(response => {
+
+                this.setState({
+
+                    search: this.state.search.filter(t => t.title === this.state.specSearch)
+
+                })
+            })
+            .catch((error) => {
+
+                console.log(error);
+
+            });
+    }
+
+    updateSearchValue(e) {
+
+        this.setState({ specSearch: e.target.value })
+        console.log("B :" + this.state.specSearch);
 
     }
 
@@ -91,15 +111,19 @@ export default class RepositoryList extends Component {
 
             <div>
                 <h3>Articles</h3>
+                <form onSubmit={this.onSubmit}>
                 <div className="form-group">
-                    <input type="text"
-                        required
-                        className="form-control"
-                        value={this.state.value}
-                        onChange={this.onChangeSearch}
+                        <input type="text"
+                            required
+                            className="form-control"
+                            value={this.state.specSearch}
+                            onChange={e => this.updateSearchValue(e)}
                     />
-                    <input type="submit" value="Search" className="btn btn-primary"/>
+                </div>
+                <div className="form-group">
+                    <input type="submit" value="Search" className="btn btn-primary" />
                     </div>
+                    </form>
                 <table className="table">
                     <thead className="thead_light">
                         <tr>
