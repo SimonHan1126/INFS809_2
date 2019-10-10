@@ -33,7 +33,8 @@ export default class RepositoryList extends Component {
         this.state = {
 
             search: [],
-            specSearch: ''
+            specSearch: '',
+            used: false
 
         };
         this.onSubmit = this.onSubmit.bind(this);
@@ -45,18 +46,7 @@ export default class RepositoryList extends Component {
      **/
     componentDidMount() {
 
-            axios.get('http://localhost:5000/articles/')
-                .then(response => {
-
-                    this.setState({ search: response.data })
-                    console.log("Made it");
-
-                })
-                .catch((error) => {
-
-                    console.log(error);
-
-                });
+        this.updateList();
         
     }
 
@@ -81,27 +71,62 @@ export default class RepositoryList extends Component {
     onSubmit(e) {
 
         e.preventDefault();
-        console.log("f: " + this.state.specSearch);
-        axios.get('/')
-            .then(response => {
-
-                this.setState({
-
-                    search: this.state.search.filter(t => t.title === this.state.specSearch)
-
-                })
-            })
-            .catch((error) => {
-
-                console.log(error);
-
-            });
+        this.updateList();
     }
 
+    /**
+     * Function to update the state of the list based on the type of search
+     * Created by James Hughes
+     * */
+    updateList() {
+
+        if (!this.state.used) {
+
+            axios.get('http://localhost:5000/articles/')
+                .then(response => {
+
+                    this.setState({ search: response.data })
+                    console.log("Made it");
+                    this.setState({ used: true });
+                    console.log(this.state.used);
+
+                })
+                .catch((error) => {
+
+                    console.log(error);
+
+                });
+
+        } else {
+
+            axios.get('http://localhost:5000/articles/')
+                .then(response => {
+
+                    const regexp = new RegExp(this.state.specSearch, 'i');
+                    this.setState({
+
+                        search: response.data.filter(t => regexp.test(t.title))
+
+                    });
+
+                    this.setState({ used: true });
+
+                })
+                .catch((error) => {
+
+                    console.log(error);
+
+                });
+        }
+    }
+
+    /**
+     * Updates the search parameters 
+     * Created by James Hughes
+     */
     updateSearchValue(e) {
 
         this.setState({ specSearch: e.target.value })
-        console.log("B :" + this.state.specSearch);
 
     }
 
@@ -113,7 +138,7 @@ export default class RepositoryList extends Component {
                 <h3>Articles</h3>
                 <form onSubmit={this.onSubmit}>
                 <div className="form-group">
-                        <input type="text"
+                        <input type="search"
                             required
                             className="form-control"
                             value={this.state.specSearch}
