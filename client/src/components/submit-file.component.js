@@ -1,17 +1,5 @@
 import React, { Component } from 'react';
 
-const Cite = require('citation-js');
-
-// Set variables
-let example = new Cite('Q21972834');
-
-let output = example.format('bibliography', {
-    format: 'html',
-    template: 'apa',
-    lang: 'en-US'
-});
-    
-
 export default class SubmitFile extends Component {
 
     constructor(props) {
@@ -31,7 +19,6 @@ export default class SubmitFile extends Component {
     onChangeHandler = e => {
 
         console.log(e.target.files[0])
-        console.log(output);
         this.setState({
 
             file: e.target.files[0],
@@ -48,7 +35,20 @@ export default class SubmitFile extends Component {
 
         e.preventDefault();
         console.log(this.state.file);
+        var CircularJSON = require('circular-json');
+        console.log("here: " + CircularJSON.stringify(this.state.file));
 
+
+        const Cite = require('citation-js'); 
+        //let art = new Cite(this.state.file);
+        //let output = art.format('bibliography', {
+
+            //format: 'HTML',
+            //template: 'CSL-JSON',
+            //lang: 'en-US'
+
+        //})
+        //console.log(output);
     }
 
     render() {
@@ -57,10 +57,10 @@ export default class SubmitFile extends Component {
             <form onSubmit={this.onSubmit}>
             <div onSubmit={this.onFormSubmit}>
                 <h3>Submit bibTeX</h3>
-                <input type="file" name="inputFile" onChange={this.onChangeHandler} />
+                <input type="file" name="inputFile" onChange={this.onChangeHandler} accept=".bib" />
             </div>
             <div className="form-group">
-                <input type="submit" value="Submit" className="btn btn-primary" />
+                <input type="submit" value="Submit" className="btn btn-primary"  />
                 </div>
                 </form>
 
