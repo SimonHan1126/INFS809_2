@@ -34,8 +34,11 @@ app.use("/articles", articleRouter);
 const reactRouter = require("./routes/reactrouter");
 app.use("*", reactRouter);
 
-//const usersRouter = require("./routes/users");
-//app.use("/users", usersRouter);
+const usersRouter = require("./routes/users");
+app.use("/users", usersRouter);
+
+const tempArticlesRouter = require("./routes/submission");
+app.use("/submission", tempArticlesRouter);
 
 //This is code for serving react through express
 
