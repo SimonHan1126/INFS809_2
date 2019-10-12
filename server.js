@@ -16,8 +16,13 @@ app.use(express.json());
 app.use(bodyParser.json());
 
 //REMEMBER TO WHITELIST THE IP OF THE CONNECTING SERVER IN MONGODB
+<<<<<<< HEAD
 const uri = process.env.ATLAS_URI || "mongodb+srv://127.0.0.1";
 //const uri = "mongodb+srv://trooblet:h8VKMShGXf8TlmUL@cluster0-dhsg3.gcp.mongodb.net/admin?retryWrites=true&w=majority";
+=======
+const uri = "mongodb+srv://trooblet:iS7YdlK7wXtQLq4b@cluster0-dhsg3.gcp.mongodb.net/test?retryWrites=true&w=majority";
+
+>>>>>>> master
 mongoose.connect(uri, {
   useNewUrlParser: true,
   useCreateIndex: true
@@ -28,14 +33,21 @@ connection.once("open", () => {
   console.log("Connected to MongoDB");
 });
 
+<<<<<<< HEAD
 const articleRouter = require("./routes/articles");
 app.use("/articles", articleRouter);
 
 const reactRouter = require("./routes/reactrouter");
 app.use("*", reactRouter);
+=======
+const excercisesRouter = require("./routes/excercises");
+const usersRouter = require("./routes/users");
+const repoRouter = require("./routes/repo");
+>>>>>>> master
 
 const usersRouter = require("./routes/users");
 app.use("/users", usersRouter);
+app.use("/repo", repoRouter);
 
 const tempArticlesRouter = require("./routes/submission");
 app.use("/submission", tempArticlesRouter);
