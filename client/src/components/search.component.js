@@ -7,7 +7,7 @@ export default class Table extends React.Component{
 		this.getHeader = this.getHeader.bind(this);
 		this.getRowsData = this.getRowsData.bind(this);
 		this.getKeys = this.getKeys.bind(this);
-		this.state = {data: [{'status':'loading'}], search: ""};
+		this.state = {data: [{'status':'loading'}], search: "architecture"};
 	}
 	
 	getKeys = function(){
@@ -38,7 +38,7 @@ export default class Table extends React.Component{
 	}
 	
 	getNewData = ()=>{
-		axios.get(`/articles/search/query=${this.state.search}`)
+		axios.get(`http://localhost:5000/articles/search/query=${this.state.search}`)
 			.then(response=>{
 				this.setState({data: response.data['results']})
 			})
@@ -51,7 +51,7 @@ export default class Table extends React.Component{
 		return(
 			<div>
 				<div>
-					FullTextSearch: <input type="text" name="search" placeHolder="" value={this.state.search} onChange={this.quantityChange} />
+					FullTextSearch: <input type="text" name="search" placeholder="" value={this.state.search} onChange={this.quantityChange} />
 					<button type="button" onClick={this.getNewData}>Search</button>
 				</div>
 				<table>
