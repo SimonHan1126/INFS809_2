@@ -1,7 +1,3 @@
-/**
- * Model class for Article (eg: journal article, book, ect) in the database as per "SDM INFS809 Assignment 2 Supporting Documentation Information in the SERLER repository"
- * Created by James Hughes modified by Ben Dagnin
- * */
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
