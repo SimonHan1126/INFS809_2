@@ -32,8 +32,8 @@ connection.once("open", () => {
 const articleRouter = require("./routes/articles");
 app.use("/articles", articleRouter);
 
-const tempArticlesRouter = require("./routes/submission");
-app.use("/submission", tempArticlesRouter);
+// const tempArticlesRouter = require("./routes/submission");
+// app.use("/submission", tempArticlesRouter);
 
 //This is code for serving react through express
 
@@ -50,8 +50,8 @@ app.use("/submission", tempArticlesRouter);
 //   res.sendFile(path.join(__dirname, "/client/public/index.html"));
 // });
 
-const reactRouter = require("./routes/reactrouter");
-app.use("*", reactRouter);
+// const reactRouter = require("./routes/reactrouter");
+// app.use("*", reactRouter);
 
 app.listen(port, () => {
   console.log(`server running on port: ${port}`);
