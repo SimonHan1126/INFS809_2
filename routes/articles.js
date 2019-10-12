@@ -111,7 +111,6 @@ router.get("/search/:query", (req, res) => {
     .catch(err => {
       res.status(400).json({ message: err });
     });
-  //res.json(req.body);
 });
 
 module.exports = router;
