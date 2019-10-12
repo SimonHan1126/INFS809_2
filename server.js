@@ -51,7 +51,7 @@ app.use("/submission", tempArticlesRouter);
 // });
 
 const reactRouter = require("./routes/reactrouter");
-app.use("/app", reactRouter);
+app.use("*", reactRouter);
 
 app.listen(port, () => {
   console.log(`server running on port: ${port}`);
