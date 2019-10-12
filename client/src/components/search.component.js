@@ -16,6 +16,7 @@ export default class Table extends React.Component{
 	
 	getHeader = function(){
 		var keys = this.getKeys();
+		console.log('got keys');
 		return keys.map((key, index)=>{
 			return <th key={key}>{key.toUpperCase()}</th>
 	})
@@ -23,7 +24,7 @@ export default class Table extends React.Component{
 	
 	getRowsData = function(){
 		var items = this.state.data;
-		console.log('got here');
+		console.log('got row');
 		var keys = this.getKeys();
 		return items.map((row, index)=>{
 			return <tr key={index}><RenderRow key={index} data={row} keys={keys}/></tr>
