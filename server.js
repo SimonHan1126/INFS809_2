@@ -17,6 +17,8 @@ app.use(bodyParser.json());
 
 //REMEMBER TO WHITELIST THE IP OF THE CONNECTING SERVER IN MONGODB
 const uri = process.env.ATLAS_URI || "mongodb+srv://127.0.0.1";
+//const uri = "mongodb+srv://trooblet:h8VKMShGXf8TlmUL@cluster0-dhsg3.gcp.mongodb.net/admin?retryWrites=true&w=majority";
+
 mongoose.connect(uri, {
   useNewUrlParser: true,
   useCreateIndex: true
@@ -33,8 +35,8 @@ app.use("/articles", articleRouter);
 const reactRouter = require("./routes/reactrouter");
 app.use("*", reactRouter);
 
-//const usersRouter = require("./routes/users");
-//app.use("/users", usersRouter);
+const tempArticlesRouter = require("./routes/submission");
+app.use("/submission", tempArticlesRouter);
 
 //This is code for serving react through express
 

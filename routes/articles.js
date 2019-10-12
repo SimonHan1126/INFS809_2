@@ -10,7 +10,7 @@ const Article = require("../models/article.model");
  * MODERATOR ACCESSIBLE ONLY!!!
  * Created by James Hughes modified by Ben Dagnin
  */
-router.post("/", (req, res) => {
+router.post("/post", (req, res) => {
   const article = new Article({
     address: req.body.address,
     annote: req.body.annote,
