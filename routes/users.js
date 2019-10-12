@@ -16,8 +16,10 @@ router.route("/users").get((req, res) => {
  * Created by Ben Dagnin
  */
 router.route("/add").post((req, res) => {
+
     const username = req.body.username;
     const password = req.body.password;
+    console.log("this user.js add username " + username + " password " + password);
   const newUser = new User({ username, password });
   newUser
     .save()
@@ -33,6 +35,7 @@ router.route("/add").post((req, res) => {
 router.route("/auth").get((req, res) => {
     const username = req.body.username;
     const password = req.body.password;
+    console.log("this user.js add username " + username + " password " + password);
     User.find({ username: { $exists: true }, password: { $exists: true } })
         .then(users => res.json(users))
         .catch(err => res.status(400).json("Error: " + err));
