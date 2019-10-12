@@ -38,9 +38,9 @@ export default class Table extends React.Component{
 	}
 	
 	getNewData = ()=>{
-		axios.get(`/articles/search/query=${this.state.search}`)
+		axios.get(`/articles/search/query="${this.state.search}"`)
 			.then(response=>{
-				this.setState({data: response.data['results']})
+				this.setState({data: response.data})
 			})
 			.catch((error)=>{
 				console.log(error);
