@@ -11,7 +11,7 @@ const Article = require("../models/article.model");
  * Created by James Hughes modified by Ben Dagnin
  */
 router.post("/", (req, res) => {
-  console.log(req);
+  //console.log(req);
   const article = new Article({
     address: req.body.address,
     annote: req.body.annote,
@@ -91,6 +91,20 @@ router.post("/search", (req, res) => {
    * MyModel.find({ name: /john/i }, 'name friends', function (err, docs) { })
    */
   Article.find(req.body)
+    .then(data => {
+      res.json(data);
+    })
+    .catch(err => {
+      res.status(400).json({ message: err });
+    });
+  //res.json(req.body);
+});
+
+/**
+ * Allows searching articles through the API
+ */
+router.get("/search/:query", (req, res) => {
+  Article.find({ $text: { $search: req.params.query } })
     .then(data => {
       res.json(data);
     })
