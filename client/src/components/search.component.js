@@ -29,9 +29,9 @@ export default class Table extends React.Component{
 		})
 	}
 	
-	componentDidMount(){
-		this.getNewData();
-	}
+	// componentDidMount(){
+		// this.getNewData();
+	// }
 	
 	quantityChange = (event)=>{
 		this.setState({search: event.target.value});
