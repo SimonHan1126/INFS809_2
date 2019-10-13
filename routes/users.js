@@ -5,11 +5,17 @@ let User = require("../models/user.model");
  * Defines route to find a list of users
  * Created by Ben Dagnin
  */
-router.route("/users").get((req, res) => {
-  User.find()
-    .then(users => res.json(users))
-    .catch(err => res.status(400).json("Error: " + err));
+
+router.post("/users", (req, res) => {
+    User.find()
+        .then(data => {
+            res.json(data);
+        })
+        .catch(err => {
+            res.status(400).json({ message: err });
+        });
 });
+
 
 /**
  * Defines a route to add a user to the database
@@ -32,7 +38,7 @@ router.route("/add").post((req, res) => {
  * Checks there is a usernames and password present which match
  * Created by James Hughes
  */
-router.route("/auth").get((req, res) => {
+router.route("/auth").post((req, res) => {
     const username = req.body.username;
     const password = req.body.password;
     console.log("this user.js add username " + username + " password " + password);

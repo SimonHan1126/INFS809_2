@@ -46,7 +46,7 @@ export default class LoginUsers extends Component {
             //username: this.state.username,
            // password: this.state.password
         //}
-        axios.get('/users', {
+        axios.post('/users', {
             params: {
                 username: this.state.username,
                 password: this.state.password
