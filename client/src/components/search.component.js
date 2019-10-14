@@ -53,25 +53,25 @@ export default class Search extends Component {
                     <p></p>
 
                     <select name="Choses">
-                        <option value="And">And</option>
-                        <option value="Or">Or</option>
-                        <option value="And not">And not</option>
-                        <option value="Or not">Or not</option>
+                        <option value="0">And</option>
+                        <option value="1">Or</option>
+                        <option value="2 not">And not</option>
+                        <option value="3">Or not</option>
                     </select>
 
                     <select name="NameOfField">
-                        <option value="Article title">Article title</option>
-                        <option value="Article sourse">Article sourse</option>
-                        <option value="Author">Author</option>
+                        <option value="0">Article title</option>
+                        <option value="1">Article sourse</option>
+                        <option value="2">Author</option>
                     </select>
 
                     <select name="Operator">
-                        <option value="Contains">Contains</option>
-                        <option value="Does not contains">Does not contains</option>
-                        <option value="Begin with">Begin with</option>
-                        <option value="Ends with">Ends with</option>
-                        <option value="Is equals to">Is equals to</option>
-                        <option value="Is less than">Is less than</option>
+                        <option value="0">Contains</option>
+                        <option value="1">Does not contains</option>
+                        <option value="2">Begin with</option>
+                        <option value="3">Ends with</option>
+                        <option value="4">Is equals to</option>
+                        <option value="5">Is less than</option>
                         <option value="More tahn or equal to">More tahn or equal to</option>
                     </select>
 

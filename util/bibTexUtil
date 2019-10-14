@@ -1,0 +1,212 @@
+var _instance = null;
+
+var bibTexUtil = function(opts)
+{
+    opts = opts || {};
+};
+
+bibTexUtil.getInstance = function()
+{
+    if(!_instance)
+    {
+        _instance = new bibTexUtil();
+    }
+    return _instance;
+};
+
+bibTexUtil.prototype.parseBibTexString = function (bibTexString)
+{
+    bibTexString = "@article{yazici2014new,title={A new control plane for 5G network architecture with a case study on unified handoff, mobility, and routing management},author={Yaz{\i}c{\i}, Volkan and Kozat, Ulas C and Sunay, M Oguz},journal={IEEE Communications Magazine},volume={52},number={11},pages={76--85},year={2014},publisher={IEEE}}";
+
+    /*
+     @article{yazici2014new,
+     title={A new control plane for 5G network architecture with a case study on unified handoff, mobility, and routing management},
+     author={Yaz{\i}c{\i}, Volkan and Kozat, Ulas C and Sunay, M Oguz},
+     journal={IEEE Communications Magazine},
+     volume={52},
+     number={11},
+     pages={76--85},
+     year={2014},
+     publisher={IEEE}
+     }
+
+    ========>
+
+     {
+     "author": "Yazc, Volkan and Kozat, Ulas C and Sunay, M Oguz",
+     "journal": "IEEE Communications Magazine",
+     "number": "11",
+     "pages": "76--85",
+     "publisher": "IEEE",
+     "title": "A new control plane for 5G network architecture with a case study on unified handoff, mobility, and routing management",
+     "volume": "52",
+     "year": "2014"
+     }
+     */
+
+    var pos = bibTexString.indexOf(",");
+    var entrySubString = bibTexString.substring(0,pos);
+    console.log(entrySubString);
+    var fieldSubString = bibTexString.substring(pos + 1, bibTexString.length - 1);
+
+    var bracketStart = 0;
+
+    for(bracketStart; bracketStart < fieldSubString.length; bracketStart++)
+    {
+        if(fieldSubString[bracketStart] == "{")
+        {
+            var index = bracketStart + 1;
+            var isCompletedBracket = true;
+            var subBracketStart = 0;
+            for(index; index < fieldSubString.length;)
+            {
+                if(fieldSubString[index] == "{")
+                {
+                    isCompletedBracket = false;
+                    subBracketStart = index;
+                    index++;
+                }
+                else if(fieldSubString[index] == "}")
+                {
+                    if(!isCompletedBracket)
+                    {
+                        var fisrtPartFieldSubString = fieldSubString.substring(0, subBracketStart);
+                        var secondPartFieldSubString = fieldSubString.substring(index + 1, fieldSubString.length);
+                        fieldSubString =  fisrtPartFieldSubString + secondPartFieldSubString;
+                        index = subBracketStart;
+                        isCompletedBracket = true;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+                else
+                {
+                    index++;
+                }
+            }
+        }
+    }
+
+    while(fieldSubString.indexOf("={") > -1)
+    {
+        fieldSubString = fieldSubString.replace("={" , "\":\"");
+    }
+
+    while(fieldSubString.indexOf("},") > -1)
+    {
+        fieldSubString = fieldSubString.replace("}," , "\",\"");
+    }
+
+    var finalJsonString = "{\"" + fieldSubString + "}";
+
+    finalJsonString = finalJsonString.replace("}}","\"}")
+
+    console.log("finalJsonString " + finalJsonString);
+
+};
+
+var entryInfo = {
+    "article" : {
+        "description" : "An article from a journal or magazine.",
+        "required" : "author, title, journal, year, volume",
+        "optional" : "number, pages, month, doi, note, key"
+    },
+    "book" : {
+        "description" : "A book with an explicit publisher.",
+        "required" : "author/editor, title, publisher, year",
+        "optional" : "volume/number, series, address, edition, month, note, key, url"
+    },
+    "inproceedings" : {
+        "description" : "An article in a conference proceedings.",
+        "required" : "author, title, booktitle, year",
+        "optional" : "editor, volume/number, series, pages, address, month, organization, publisher, note, key"
+    },
+    "booklet" : {
+        "description" : "A work that is printed and bound, but without a named publisher or sponsoring institution.",
+        "required" : "title",
+        "optional" : "author, howpublished, address, month, year, note, key"
+    },
+    "conference" : {
+        "description" : "An article in a conference proceedings.",
+        "required" : "author, title, booktitle, year",
+        "optional" : "editor, volume/number, series, pages, address, month, organization, publisher, note, key"
+    },
+    "inbook" : {
+        "description" : "A part of a book, usually untitled. May be a chapter (or section, etc.) and/or a range of pages.",
+        "required" : "author/editor, title, chapter/pages, publisher, year",
+        "optional" : "volume/number, series, type, address, edition, month, note, key"
+    },
+    "incollection" : {
+        "description" : "A part of a book having its own title.",
+        "required" : "author, title, booktitle, publisher, year",
+        "optional" : "editor, volume/number, series, type, chapter, pages, address, edition, month, note, key"
+    },
+    "manual" : {
+        "description" : "Technical documentation.",
+        "required" : "title",
+        "optional" : "author, organization, address, edition, month, year, note, key"
+    },
+    "mastersthesis" : {
+        "description" : "A Master's thesis.",
+        "required" : "author, title, school, year",
+        "optional" : "type, address, month, note, key"
+    },
+    "misc" : {
+        "description" : "For use when nothing else fits.",
+        "required" : "",
+        "optional" : "author, title, howpublished, month, year, note, key"
+    },
+    "phdthesis" : {
+        "description" : "A Ph.D. thesis.",
+        "required" : "author, title, school, year",
+        "optional" : "type, address, month, note, key"
+    },
+    "proceedings" : {
+        "description" : "The proceedings of a conference.",
+        "required" : "title, year",
+        "optional" : "editor, volume/number, series, address, month, publisher, organization, note, key"
+    },
+    "techreport" : {
+        "description" : "A report published by a school or other institution, usually numbered within a series.",
+        "required" : "author, title, institution, year",
+        "optional" : "type, number, address, month, note, key"
+    },
+    "unpublished" : {
+        "description" : "A document having an author and title, but not formally published.",
+        "required" : "author, title, note",
+        "optional" : "month, year, key"
+    }
+};
+
+var fieldInfo =  {
+    "address" : "Publisher's address (usually just the city, but can be the full address for lesser-known publishers)",
+    "annote" : "An annotation for annotated bibliography styles (not typical)",
+    "author" : "The name(s) of the author(s) (in the case of more than one author, separated by and)",
+    "booktitle" : "The title of the book, if only part of it is being cited",
+    "chapter" : "The chapter number",
+    "crossref" : "The key of the cross-referenced entry",
+    "doi" : "digital object identifier",
+    "edition" : "The edition of a book, long form (such as 'First' or 'Second')",
+    "editor" : "The name(s) of the editor(s)",
+    "howpublished" : "How it was published, if the publishing method is nonstandard",
+    "institution" : "The institution that was involved in the publishing, but not necessarily the publisher",
+    "journal" : "The journal or magazine the work was published in",
+    "key" : "A hidden field used for specifying or overriding the alphabetical order of entries (when the 'author' and 'editor' fields are missing). Note that this is very different from the key (mentioned just after this list) that is used to cite or cross-reference the entry.",
+    "month" : "The month of publication (or, if unpublished, the month of creation)",
+    "note" : "Miscellaneous extra information",
+    "number" : "The '(issue) number' of a journal, magazine, or tech-report, if applicable. Note that this is not the 'article number' assigned by some journals.",
+    "organization" : "The conference sponsor",
+    "pages" : "Page numbers, separated either by commas or double-hyphens.",
+    "publisher" : "The publisher's name",
+    "school" : "The school where the thesis was written",
+    "series" : "The series of books the book was published in (e.g. 'The Hardy Boys' or 'Lecture Notes in Computer Science')",
+    "title" : "The title of the work",
+    "type" : "The field overriding the default type of publication (e.g. 'Research Note' for techreport, '{PhD} dissertation' for phdthesis, 'Section' for inbook/incollection)",
+    "volume" : "The volume of a journal or multi-volume book",
+    "year" : "The year of publication (or, if unpublished, the year of creation)"
+}
+
+
+module.exports = bibTexUtil;
