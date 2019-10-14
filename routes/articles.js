@@ -70,7 +70,9 @@ router.get("/", (req, res) => {
  * Created by Ben Dagnin
  */
 router.get("/:id", (req, res) => {
-  Article.findById(req.params.id)
+  var id = req.body._id;
+  console.log("this get sp article by id " + id);
+  Article.findById(id)
     .then(data => {
       res.json(data);
     })

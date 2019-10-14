@@ -32,12 +32,18 @@ connection.once("open", () => {
 const articleRouter = require("./routes/articles");
 app.use("/articles", articleRouter);
 
+const reactRouter = require("./routes/reactrouter");
+app.use("*", reactRouter);
+
+const usersRouter = require("./routes/users");
+app.use("/users", usersRouter);
+
 const tempArticlesRouter = require("./routes/submission");
 app.use("/submission", tempArticlesRouter);
 
 //This is code for serving react through express
 
-//app.use(express.static(path.join(__dirname, "client/build")));
+app.use(express.static(path.join(__dirname, "client/build")));
 
 // if (process.env.NODE_ENV === "production") {
 //   app.use(express.static(path.join(__dirname, "client/build")));
@@ -49,9 +55,6 @@ app.use("/submission", tempArticlesRouter);
 // app.get("*", (req, res) => {
 //   res.sendFile(path.join(__dirname, "/client/public/index.html"));
 // });
-
-const reactRouter = require("./routes/reactrouter");
-app.use("*", reactRouter);
 
 app.listen(port, () => {
   console.log(`server running on port: ${port}`);

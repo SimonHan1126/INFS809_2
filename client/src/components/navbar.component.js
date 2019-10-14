@@ -24,6 +24,9 @@ export default class Navbar extends Component {
                         <li className="navbar-item">
                             <Link to="/submission" className="nav-link">Submit</Link>
                         </li>
+                        <li className="navbar-item">
+                            <Link to="/search" className="nav-link">Search</Link>
+                        </li>
                     </ul>
                 </div>
             </nav>

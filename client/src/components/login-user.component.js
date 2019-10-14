@@ -46,49 +46,58 @@ export default class LoginUsers extends Component {
             //username: this.state.username,
            // password: this.state.password
         //}
-        axios.get('/users', {
+        axios.post('/users/auth', {
             params: {
                 username: this.state.username,
                 password: this.state.password
             }
         })
             //.then(res => console.log(res.data));
-        console.log("log in successful");
+
+            .then(function (res) {
+
+                if(!res.data.err)
+                {
+                    console.log(res.data.username + " login successfully");
+                }
+                else
+                {
+                    console.log("status " + res.status + " error " + res.data.err)
+                }
+            });
     }
 
+    render() {
 
+        return (
 
-        render() {
+            <div>
+                <h3>Login</h3>
+                <form onSubmit={this.onSubmit}>
+                    <div className="form-group">
+                        <label>Username: </label>
+                        <input type="text"
+                            required
+                            className="form-control"
+                            value={this.state.username}
+                            onChange={this.onChangeUsername}
+                        />
+                        <label>Password: </label>
+                        <input type="text"
+                            required
+                            className="form-control"
+                            value={this.state.password}
+                            onChange={this.onChangePassword}
+                        />
+                    </div>
+                    <div className="form-group">
+                        <input type="submit" value="Login" className="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
 
-            return (
+        )
 
-                <div>
-                    <h3>Login</h3>
-                    <form onSubmit={this.onSubmit}>
-                        <div className="form-group">
-                            <label>Username: </label>
-                            <input type="text"
-                                required
-                                className="form-control"
-                                value={this.state.username}
-                                onChange={this.onChangeUsername}
-                            />
-                            <label>Password: </label>
-                            <input type="text"
-                                required
-                                className="form-control"
-                                value={this.state.password}
-                                onChange={this.onChangePassword}
-                            />
-                        </div>
-                        <div className="form-group">
-                            <input type="submit" value="Login" className="btn btn-primary" />
-                        </div>
-                    </form>
-                </div>
-
-            )
-
-        }
+    }
 
     }

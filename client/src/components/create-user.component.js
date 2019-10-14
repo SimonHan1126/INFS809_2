@@ -27,7 +27,6 @@ export default class CreateUsers extends Component {
         this.setState({
             username: e.target.value
         });
-
     }
 
     onChangePassword(e) {
@@ -46,9 +45,10 @@ export default class CreateUsers extends Component {
             password: this.state.password
         }
 
-        console.log(user);
         axios.post('/users/add', user)
-            .then(res => console.log(res.data));
+            .then(function (res) {
+                console.log(res.data)
+            });
 
         //Redirect user after signin
         //window.location = '/';
@@ -57,7 +57,6 @@ export default class CreateUsers extends Component {
             username: '',
             password: ''
         })
-
     }
 
     render() {
