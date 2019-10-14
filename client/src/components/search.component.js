@@ -48,8 +48,8 @@ export default class Search extends Component {
                 <form onSubmit={this.onSubmit}>
                     <div className="form-group">
                     <h2>Advance Search</h2>
-                    Date Range: <input type="date" name="StartDate"> to <input type="date" name="EndDate">   
-                
+                    Date Range: <input type="date" name="StartDate"/> to <input type="date" name="EndDate"/>
+
                     <p></p>
 
                     <select name="Choses">
@@ -58,13 +58,13 @@ export default class Search extends Component {
                         <option value="And not">And not</option>
                         <option value="Or not">Or not</option>
                     </select>
-                    
+
                     <select name="NameOfField">
                         <option value="Article title">Article title</option>
                         <option value="Article sourse">Article sourse</option>
                         <option value="Author">Author</option>
                     </select>
-                    
+
                     <select name="Operator">
                         <option value="Contains">Contains</option>
                         <option value="Does not contains">Does not contains</option>
@@ -74,8 +74,8 @@ export default class Search extends Component {
                         <option value="Is less than">Is less than</option>
                         <option value="More tahn or equal to">More tahn or equal to</option>
                     </select>
-                    
-                    <input class="" type="text">
+
+                    <input class="" type="text"/>
                     <p>
                     </p>
                         <input type="submit" value="Search" className="btn btn-primary" />
