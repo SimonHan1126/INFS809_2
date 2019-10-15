@@ -7,7 +7,8 @@ import CreateUser from "./components/create-user.component";
 import LoginUser from "./components/login-user.component";
 import RepositoryList from "./components/repository.component";
 import SubmitFile from "./components/submit-file.component";
-import Search from "./components/search.component";
+//import Search from "./components/search.component";
+import Searchtest from './components/searchtest.component';
 
 function App() {
     return (
@@ -18,7 +19,8 @@ function App() {
             <Route path="/user" component={LoginUser} />
             <Route path="/articles" component={RepositoryList} />
             <Route path="/submission" component={SubmitFile} />
-            <Route path="/search" component={Search} />
+            {/* <Route path="/search" component={Search} /> */}
+            <Route path="/searchtest" component={Searchtest} />
       </Router>
   );
 }
