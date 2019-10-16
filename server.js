@@ -29,6 +29,10 @@ connection.once("open", () => {
   console.log("Connected to MongoDB");
 });
 
+connection.on("error", function (error) {
+  console.log("connection on err " + error);
+});
+
 const articleRouter = require("./routes/articles");
 app.use("/articles", articleRouter);
 

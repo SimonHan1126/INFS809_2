@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 
 /**
- * User view of registration page, enables functions through GUI interactions
- * Created by James Hughes
+ * Created by Simon
  * */
 export default class Search extends Component {
     constructor(props) {

@@ -7,8 +7,8 @@ const Schema = mongoose.Schema;
 
 const ArticleSchema = new Schema(
   {
-    title: { type: String, required: true },
-    author: { type: String, required: true },
+    title: { type: String, required: false },
+    author: { type: String, required: false },
     doi: { type: String, required: false },
     address: { type: String, required: false },
     annote: { type: String, required: false },
