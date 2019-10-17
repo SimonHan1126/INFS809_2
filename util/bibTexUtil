@@ -16,8 +16,6 @@ bibTexUtil.getInstance = function()
 
 bibTexUtil.prototype.parseBibTexString = function (bibTexString)
 {
-    bibTexString = "@article{yazici2014new,title={A new control plane for 5G network architecture with a case study on unified handoff, mobility, and routing management},author={Yaz{\i}c{\i}, Volkan and Kozat, Ulas C and Sunay, M Oguz},journal={IEEE Communications Magazine},volume={52},number={11},pages={76--85},year={2014},publisher={IEEE}}";
-
     /*
      @article{yazici2014new,
      title={A new control plane for 5G network architecture with a case study on unified handoff, mobility, and routing management},
@@ -44,11 +42,12 @@ bibTexUtil.prototype.parseBibTexString = function (bibTexString)
      }
      */
 
+    var bibtexJsonObject = {};
+
+    bibTexString = bibTexString.replace(/\n|\r|\t/g,"");
     var pos = bibTexString.indexOf(",");
     var entrySubString = bibTexString.substring(0,pos);
-    console.log(entrySubString);
     var fieldSubString = bibTexString.substring(pos + 1, bibTexString.length - 1);
-
     var bracketStart = 0;
 
     for(bracketStart; bracketStart < fieldSubString.length; bracketStart++)
@@ -103,8 +102,18 @@ bibTexUtil.prototype.parseBibTexString = function (bibTexString)
 
     finalJsonString = finalJsonString.replace("}}","\"}")
 
-    console.log("finalJsonString " + finalJsonString);
 
+    var finalJsonObject = JSON.parse(finalJsonString);
+
+    for(var i in finalJsonObject)
+    {
+        var item = finalJsonObject[i];
+        i = i.replace(/\s/ig,'');
+        bibtexJsonObject[i] = item;
+    }
+
+    console.log("+++++++++ " + bibtexJsonObject["title"] + "  " + JSON.stringify(bibtexJsonObject));
+    return bibtexJsonObject;
 };
 
 var entryInfo = {
@@ -207,6 +216,5 @@ var fieldInfo =  {
     "volume" : "The volume of a journal or multi-volume book",
     "year" : "The year of publication (or, if unpublished, the year of creation)"
 }
-
 
 module.exports = bibTexUtil;

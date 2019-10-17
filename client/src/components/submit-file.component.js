@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 
 export default class SubmitFile extends Component {
 
@@ -18,37 +19,47 @@ export default class SubmitFile extends Component {
 
     onChangeHandler = e => {
 
-        console.log(e.target.files[0])
-        this.setState({
+        let files = e.target.files;
+        console.log("onChangeHandler 11111 " + files);
+        let reader = new FileReader();
+        reader.onload = r => {
+            console.log("onChangeHandler 2222222 " + r.target.result);
+            var fileContent = r.target.result.substring(37,r.target.result.length);
+            this.setState({
 
-            file: e.target.files[0],
-            loaded: 0
+                file: fileContent,
+                loaded: 0
 
-        })
+            })
+        };
+        reader.readAsDataURL(files[0]);
     }
 
     /**
      * Submit a file to MongoDB
-     * Created by James Hughes
+     * Created by James Hughes modified by Simon Han
      */
     onSubmit(e) {
 
         e.preventDefault();
-        console.log(this.state.file);
-        var CircularJSON = require('circular-json');
-        console.log("here: " + CircularJSON.stringify(this.state.file));
 
-
-        //const Cite = require('citation-js'); 
-        //let art = new Cite(this.state.file);
-        //let output = art.format('bibliography', {
-
-            //format: 'HTML',
-            //template: 'CSL-JSON',
-            //lang: 'en-US'
-
-        //})
-        //console.log(output);
+        axios.post('/articles/post', {
+            params: {
+                "bibTex" : this.state.file
+            }
+        })
+        .then(function (res) {
+            console.log(JSON.stringify(arguments))
+            if(res.status == 200)
+            {
+                console.log(res.data);
+                alert("add article successfully");
+            }
+            else
+            {
+                console.log("status " + res.status + " error " + res.data.err + " err " + res.err)
+            }
+        });
     }
 
     render() {

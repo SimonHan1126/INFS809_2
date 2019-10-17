@@ -4,6 +4,8 @@
  * */
 const router = require("express").Router();
 const Article = require("../models/article.model");
+const base64Util = require("../util/base64Util");
+const bibTexUtil = require("../util/bibTexUtil");
 
 /**
  * Defines a route for adding a new paper
@@ -11,32 +13,36 @@ const Article = require("../models/article.model");
  * Created by James Hughes modified by Ben Dagnin
  */
 router.post("/post", (req, res) => {
+
+  var bibTexString = base64Util.getInstance().decode(req.body.params.bibTex);
+  var bibTexObject = bibTexUtil.getInstance().parseBibTexString(bibTexString);
+
   const article = new Article({
-    address: req.body.address,
-    annote: req.body.annote,
-    author: req.body.author,
-    booktitle: req.body.booktitle,
-    chapter: req.body.chapter,
-    crossref: req.body.crossref,
-    doi: req.body.doi,
-    edition: req.body.edition,
-    editor: req.body.editor,
-    howpublished: req.body.howpublished,
-    institution: req.body.institution,
-    journal: req.body.journal,
-    key: req.body.key,
-    month: req.body.month,
-    note: req.body.note,
-    number: req.body.number,
-    organization: req.body.organization,
-    pages: req.body.pages,
-    publisher: req.body.publisher,
-    school: req.body.school,
-    series: req.body.series,
-    title: req.body.title,
-    type: req.body.type,
-    volume: req.body.volume,
-    year: req.body.year
+    address: bibTexObject.address,
+    annote: bibTexObject.annote,
+    author: bibTexObject.author,
+    booktitle: bibTexObject.booktitle,
+    chapter: bibTexObject.chapter,
+    crossref: bibTexObject.crossref,
+    doi: bibTexObject.doi,
+    edition: bibTexObject.edition,
+    editor: bibTexObject.editor,
+    howpublished: bibTexObject.howpublished,
+    institution: bibTexObject.institution,
+    journal: bibTexObject.journal,
+    key: bibTexObject.key,
+    month: bibTexObject.month,
+    note: bibTexObject.note,
+    number: bibTexObject.number,
+    organization: bibTexObject.organization,
+    pages: bibTexObject.pages,
+    publisher: bibTexObject.publisher,
+    school: bibTexObject.school,
+    series: bibTexObject.series,
+    title: bibTexObject.title,
+    type: bibTexObject.type,
+    volume: bibTexObject.volume,
+    year: bibTexObject.year
   });
 
   console.log(article);
