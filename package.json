@@ -12,7 +12,8 @@
   "scripts": {
     "start": "nodemon server.js",
     "test": "mocha --require babel-register tests/*.js --exit",
-    "dev": "nodemon --exec babel-node --presets babel-preset-env ./app.js"
+    "dev": "nodemon --exec babel-node --presets babel-preset-env ./app.js",
+    "heroku-postbuild": "cd client && npm install && npm run build"
   },
   "repository": {
     "type": "git",
