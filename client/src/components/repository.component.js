@@ -87,8 +87,8 @@ export default class RepositoryList extends Component {
             axios.get('http://localhost:5000/articles/', {
                 params: {
 
-                    title: this.state.specSearch
-
+                    title: this.state.specSearch,
+                    author: ''
                 }
 
             })
@@ -111,7 +111,8 @@ export default class RepositoryList extends Component {
             axios.get('http://localhost:5000/articles/', {
                 params: {
 
-                    title: this.state.specSearch
+                    title: this.state.specSearch,
+                    author: ''
 
                 }
                 })
@@ -146,7 +147,8 @@ export default class RepositoryList extends Component {
         axios.get('http://localhost:5000/articles/', {
             params: {
 
-                title: this.state.specSearch
+                title: this.state.specSearch,
+                author: ''
 
             }
         })
