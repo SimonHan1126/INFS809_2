@@ -56,7 +56,13 @@ router.post("/post", (req, res) => {
  * Created by James Hughes
  */
 router.get("/", (req, res) => {
-  Article.find()
+
+        Article.find({
+            $or: [{
+                title: { $regex: req.query.title, $options: 'i' },
+                author: { $regex: req.query.author, $options: 'i' }
+            }]
+            })
     .then(data => {
       res.json(data);
     })
@@ -99,6 +105,21 @@ router.post("/search", (req, res) => {
       res.status(400).json({ message: err });
     });
   //res.json(req.body);
+});
+
+/**
+ * Partial text search
+ * Created by James Hughes
+ * */
+router.get("/p", (req, res) => {
+    //{ title: { $regex: req.body.title, $options: 'i' }}
+    Article.find()
+        .then(data => {
+            res.json(data);
+        })
+        .catch(err => {
+            res.status(400).json({ message: err });
+        });
 });
 
 module.exports = router;

@@ -38,6 +38,7 @@ export default class RepositoryList extends Component {
 
         };
         this.onSubmit = this.onSubmit.bind(this);
+        this.onClick = this.onClick.bind(this);
 
     }
 
@@ -47,6 +48,7 @@ export default class RepositoryList extends Component {
     componentDidMount() {
 
         this.updateList();
+        
         
     }
 
@@ -82,13 +84,20 @@ export default class RepositoryList extends Component {
 
         if (!this.state.used) {
 
-            axios.get('http://localhost:5000/articles/')
+            axios.get('http://localhost:5000/articles/', {
+                params: {
+
+                    title: this.state.specSearch
+
+                }
+
+            })
                 .then(response => {
 
-                    this.setState({ search: response.data })
-                    console.log("Made it");
-                    this.setState({ used: true });
-                    console.log(this.state.used);
+                    this.setState({
+                        search: response.data,
+                        used: true
+                    })
 
                 })
                 .catch((error) => {
@@ -99,18 +108,20 @@ export default class RepositoryList extends Component {
 
         } else {
 
-            axios.get('http://localhost:5000/articles/')
-                .then(response => {
+            axios.get('http://localhost:5000/articles/', {
+                params: {
 
-                    const regexp = new RegExp(this.state.specSearch, 'i');
+                    title: this.state.specSearch
+
+                }
+                })
+                .then(response => {
                     this.setState({
 
-                        search: response.data.filter(t => regexp.test(t.title))
+                        search: response.data,
+                        used: true
 
-                    });
-
-                    this.setState({ used: true });
-
+                    })
                 })
                 .catch((error) => {
 
@@ -127,6 +138,30 @@ export default class RepositoryList extends Component {
     updateSearchValue(e) {
 
         this.setState({ specSearch: e.target.value })
+
+    }
+
+    onClick() {
+
+        axios.get('http://localhost:5000/articles/', {
+            params: {
+
+                title: this.state.specSearch
+
+            }
+        })
+            .then(response => {
+
+                console.log(this.state.specSearch)
+                console.log(response)
+             
+
+            })
+            .catch(err => {
+
+                console.log(err);
+
+            });
 
     }
 
@@ -148,6 +183,9 @@ export default class RepositoryList extends Component {
                 <div className="form-group">
                     <input type="submit" value="Search" className="btn btn-primary" />
                     </div>
+                    <div>
+                        <input type="submit" value="test query" className="btn btn-primary" onClick={this.onClick} />
+                        </div>
                     </form>
                 <table className="table">
                     <thead className="thead_light">

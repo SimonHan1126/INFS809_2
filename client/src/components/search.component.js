@@ -10,14 +10,52 @@ export default class Search extends Component {
 
         super(props);
 
+        this.state = {
+
+            search: ''
+
+        };
+
         this.onSubmit = this.onSubmit.bind(this);
+        this.onAlterText = this.onAlterText.bind(this);
     }
 
+    componentDidMount() {
+
+        console.log(this.state.search);
+
+    }
+
+    onAlterText(e) {
+
+        this.setState({ search: e.target.value });
+        console.log("pie" + this.state.search);
+
+    }
 
     onSubmit(e) {
 
         e.preventDefault();
+        axios.get('/', {
+            params: {
 
+                title: this.state.search
+
+            }})
+            .then(response => {
+
+                console.log("result: " + response);
+
+            })
+            .catch(err => {
+
+                console.log("error" + err);
+
+            });
+
+
+
+        /*
         axios.post('/users/auth', {
             params: {
                 // username: this.state.username,
@@ -37,6 +75,7 @@ export default class Search extends Component {
                 //     console.log("status " + res.status + " error " + res.data.err)
                 // }
             });
+            */
     }
 
     render() {
@@ -48,7 +87,7 @@ export default class Search extends Component {
                 <form onSubmit={this.onSubmit}>
                     <div className="form-group">
                     <h2>Advance Search</h2>
-                    Date Range: <input type="date" name="StartDate"/> to <input type="date" name="EndDate"/>
+                   Date Range: <input type="date" name="StartDate"/> to <input type="date" name="EndDate"/>
 
                     <p></p>
 
@@ -72,10 +111,13 @@ export default class Search extends Component {
                         <option value="3">Ends with</option>
                         <option value="4">Is equals to</option>
                         <option value="5">Is less than</option>
-                        <option value="More tahn or equal to">More tahn or equal to</option>
+                        <option value="More than or equal to">More tahn or equal to</option>
                     </select>
 
-                    <input class="" type="text"/>
+                        <input name="txtinput"
+                            type="search"
+                            className="form-control"
+                            onChange={e => this.onAlterText(e)} />
                     <p>
                     </p>
                         <input type="submit" value="Search" className="btn btn-primary" />

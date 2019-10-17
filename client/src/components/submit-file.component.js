@@ -39,7 +39,7 @@ export default class SubmitFile extends Component {
         console.log("here: " + CircularJSON.stringify(this.state.file));
 
 
-        const Cite = require('citation-js'); 
+        //const Cite = require('citation-js'); 
         //let art = new Cite(this.state.file);
         //let output = art.format('bibliography', {
 

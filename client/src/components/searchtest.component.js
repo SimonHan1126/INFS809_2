@@ -52,8 +52,8 @@ export default class Searchtest extends Component {
     }
 
     handleSubmit(event) {
-      alert('Input test' + this.state.time + this.state.Endtime +this.state.DropDownAndOr + this.state.NameOfField + this.state.Operator
-      + this.state.Textinput);
+      //alert('Input test' + this.state.time + this.state.Endtime +this.state.DropDownAndOr + this.state.NameOfField + this.state.Operator
+      //+ this.state.Textinput);
       event.preventDefault();
     }
 
@@ -109,7 +109,7 @@ export default class Searchtest extends Component {
                 <option value="Is less than">Is less than</option>
                 <option value="More than or equal to">More than or equal to</option>
             </select>
-            <input class="" type="text" value={this.state.Textinput} onChange={this.handleTextinputChange}/>
+            <input type="text" value={this.state.Textinput} onChange={this.handleTextinputChange}/>
           </label>
            
 
