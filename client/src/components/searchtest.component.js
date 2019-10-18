@@ -32,24 +32,19 @@ export default class Searchtest extends Component {
     }
 
     handleTextinputChange(e, index){
-        //this.state.Textinput[index] = e.target.value
-        //this.setState({ Textinput: this.state.Textinput })
-
-        this.setState(state => {
-
-            const list = state.Textinput.push(e.target.value);
-            return { list };
-
-        });
+        
+        let Textinput = [...this.state.Textinput];
+        Textinput[index] = e.target.value;
+        this.setState({ Textinput });
     }
 
-    handleTextinputRemove(index){
-        //remove an item in index
-        this.state.Textinput.splice(index,1)
-        console.log(this.state.Textinput, "Textinput Removed");
+    handleTextinputRemove(index) {
 
-        //update the state - dont need this when you splice it autoupdates the state
-        //this.setState({Textinput: this.state.Textinput})
+        let items = this.state.Textinput;
+        items.splice(index, 1);
+        console.log(this.state.Textinput, "Textinput Removed");
+        this.setState({ TextInput: items });
+
     }
 
     //Operater add and remove
@@ -58,15 +53,10 @@ export default class Searchtest extends Component {
     }
 
     handleOperatorChange(e, indexOperator){
-        //this.state.Operator[indexOperator] = e.target.value
-        //this.setState({ Operator: this.state.Operator })
-
-        this.setState(state => {
-
-            const list = state.Operator.push(e.target.value);
-            return { list };
-
-        });
+       
+        let Operator = [...this.state.Operator];
+        Operator[indexOperator] = e.target.value;
+        this.setState({ Operator });
     }
 
     handleOperatorRemove(indexOperator){
@@ -83,15 +73,13 @@ export default class Searchtest extends Component {
     }
 
     handleDropDownAndOrChange(e,indexDropDownAndOr){
-        //this.state.DropDownAndOr[indexDropDownAndOr] = e.target.value
-        //this.setState({ DropDownAndOr: this.state.DropDownAndOr })
 
-        this.setState(state => {
+        //We mutate outside of the state then change the value with set state 
+        //This adheres to the immutablility of states
+        let DropDownAndOr = [...this.state.DropDownAndOr];
+        DropDownAndOr[indexDropDownAndOr] = e.target.value;
+        this.setState({ DropDownAndOr });
 
-            const list = state.DropDownAndOr.push(e.taregt.value);
-            return { list };
-
-        });
     }
 
     handleDropDownAndOrRemove(indexDropDownAndOr){
@@ -108,15 +96,13 @@ export default class Searchtest extends Component {
     }
 
     handleNameOfFieldChange(e,indexNameOfField){
-        //this.state.NameOfField[indexNameOfField] = e.target.value
-        //this.setState({ NameOfField: this.state.NameOfField })
 
-        this.setState(state => {
 
-            const list = state.NameOfField.push(e.target.value);
-            return { list };
+        //??????????????????????????????/
+        let NameOfField = [...this.state.NameOfField];
+        NameOfField[indexNameOfField] = e.target.value;
+        this.setState({ NameOfField });
 
-        });
     }
 
     handleNameOfFieldRemove(indexNameOfField){
@@ -129,17 +115,17 @@ export default class Searchtest extends Component {
 
     //general several button options
     AddGenarl(){
-        this.addNameOfField();
-        this.addDropDownAndOr();
-        this.addOperator();
+        //this.addNameOfField();
+        //this.addDropDownAndOr();
+        //this.addOperator();
         this.addText();
 
     }
 
     RemoveGenarl(One){
-        this.handleNameOfFieldRemove(One);
-        this.handleDropDownAndOrRemove(One);
-        this.handleOperatorRemove(One);
+        //this.handleNameOfFieldRemove(One);
+        //this.handleDropDownAndOrRemove(One);
+        //this.handleOperatorRemove(One);
         this.handleTextinputRemove(One);
     }
 
@@ -175,7 +161,7 @@ export default class Searchtest extends Component {
                     <div key={indexNameOfField}>
                         <select name="NameOfField" value={NameOfFieldInfo} onChange={this.handleNameOfFieldChange}>
                             <option value="Article title">Article title</option>
-                            <option value="Article sourse">Article sourse</option>
+                            <option value="Article sourse">Article source</option>
                             <option value="Author">Author</option>
                          </select>
                     </div>
@@ -230,11 +216,12 @@ export default class Searchtest extends Component {
             {
                 this.state.Textinput.map((Text, index)=>{
                     return(
-                        <div  key={index}>
-                            
-                            <input onChange={(e)=>this.handleTextinputChange(e, index)} value={Text} />
-                        
-                            {/* <button onClick={()=>this.handleTextinputRemove(index)}>RemoveText</button> */}
+                        <div  key={index} className="input-group">
+
+                            <input type="search" onChange={(e) => this.handleTextinputChange(e, index)} value={Text} />
+                            <span className="input-group-btn">
+                                <button onClick={() => this.handleTextinputRemove(index)} className="button">Remove Text</button>
+                            </span>
                         </div>
                     )
 
