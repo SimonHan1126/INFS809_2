@@ -46,7 +46,7 @@ base64Util.prototype.encode = function (input)
 };
 
 // private method for UTF-8 encoding
-_utf8_encode = function (string) {
+var _utf8_encode = function (string) {
     string = string.replace(/\r\n/g,"\n");
     var utftext = "";
     for (var n = 0; n < string.length; n++) {
@@ -67,7 +67,7 @@ _utf8_encode = function (string) {
 }
 
 // private method for UTF-8 decoding
-_utf8_decode = function (utftext) {
+var _utf8_decode = function (utftext) {
     var string = "";
     var i = 0;
     var c = c1 = c2 = 0;

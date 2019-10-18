@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import axios from 'axios';
 
 export default class SubmitFile extends Component {
@@ -10,8 +11,7 @@ export default class SubmitFile extends Component {
         this.state = {
 
             file: ''
-
-        }
+        };
 
         this.onChangeHandler = this.onChangeHandler.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
@@ -19,11 +19,11 @@ export default class SubmitFile extends Component {
 
     onChangeHandler = e => {
 
+        const element = (<div></div>);
+        ReactDOM.render(element, document.getElementById('showArticle'));
         let files = e.target.files;
-        console.log("onChangeHandler 11111 " + files);
         let reader = new FileReader();
         reader.onload = r => {
-            console.log("onChangeHandler 2222222 " + r.target.result);
             var fileContent = r.target.result.substring(37,r.target.result.length);
             this.setState({
 
@@ -33,7 +33,7 @@ export default class SubmitFile extends Component {
             })
         };
         reader.readAsDataURL(files[0]);
-    }
+    };
 
     /**
      * Submit a file to MongoDB
@@ -49,15 +49,40 @@ export default class SubmitFile extends Component {
             }
         })
         .then(function (res) {
-            console.log(JSON.stringify(arguments))
             if(res.status === 200)
             {
                 console.log(res.data);
-                alert("add article successfully");
+
+                if(!!res.data) {
+                    if(!!res.data.err)
+                    {
+                        alert(res.data.err);
+                    }
+                    else
+                    {
+                        alert("add article successfully");
+                    }
+
+                    delete res.data.err;
+                    delete res.data._id;
+                    delete res.data.__v;
+
+                    var articleTagArr = [];
+                    for(var i in res.data)
+                    {
+                        articleTagArr.push( i + ":" + res.data[i]);
+                    }
+
+                    var str = articleTagArr.map((item, index) => {
+                            return <h3>{item}</h3>
+                        });
+                    const element = (<div>{str}</div>);
+                    ReactDOM.render(element, document.getElementById('showArticle'));
+                }
             }
             else
             {
-                console.log("status " + res.status + " error " + res.data.err + " err " + res.err)
+                alert("An error occurred. Please try again later");
             }
         });
     }
@@ -72,6 +97,7 @@ export default class SubmitFile extends Component {
             </div>
             <div className="form-group">
                 <input type="submit" value="Submit" className="btn btn-primary"  />
+                <div id="showArticle"></div>
                 </div>
                 </form>
 

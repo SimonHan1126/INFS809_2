@@ -45,16 +45,32 @@ router.post("/post", (req, res) => {
     year: bibTexObject.year
   });
 
-  console.log(article);
+  var isUploaded = false;
 
-  article
-    .save()
-    .then(data => {
-      res.json(data);
-    })
-    .catch(err => {
-      res.status(400).json({ message: err });
-    });
+  Article.findOne(bibTexObject)
+      .then(function (data) {
+        if(!!data)
+        {
+          isUploaded = true;
+        }
+      }).finally(function () {
+        if(!isUploaded)
+        {
+          article
+              .save()
+              .then(bibTexObject => {
+                res.json(bibTexObject);
+              })
+              .catch(err => {
+                res.status(400).json({ message: err });
+              });
+        }
+        else
+        {
+          bibTexObject.err = "article exist, please upload new one. Thank you!";
+          res.json(bibTexObject)
+        }
+  })
 });
 
 /**
