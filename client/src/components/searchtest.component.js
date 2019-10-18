@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { isNullOrUndefined } from 'util';
+//import { isNullOrUndefined } from 'util';
 //import axios from 'axios';
 //import '../App.css';
 
@@ -13,7 +13,7 @@ export default class Searchtest extends Component {
     
     constructor(props) {
       super(props);
-      this.state = {
+        this.state = {
           time: '00/00/0000',
           Endtime: '00/00/0000',
           DropDownAndOr: ['And'],
@@ -30,27 +30,45 @@ export default class Searchtest extends Component {
     addText(){
         this.setState({Textinput: [...this.state.Textinput, ""]})
     }
+
     handleTextinputChange(e, index){
-        this.state.Textinput[index] = e.target.value
-        this.setState({Textinput: this.state.Textinput})
+        //this.state.Textinput[index] = e.target.value
+        //this.setState({ Textinput: this.state.Textinput })
+
+        this.setState(state => {
+
+            const list = state.Textinput.push(e.target.value);
+            return { list };
+
+        });
     }
+
     handleTextinputRemove(index){
         //remove an item in index
         this.state.Textinput.splice(index,1)
         console.log(this.state.Textinput, "Textinput Removed");
 
-        //update the state
-        this.setState({Textinput: this.state.Textinput})
+        //update the state - dont need this when you splice it autoupdates the state
+        //this.setState({Textinput: this.state.Textinput})
     }
 
     //Operater add and remove
     addOperator(){
         this.setState({Operator: [...this.state.Operator, ""]})
     }
+
     handleOperatorChange(e, indexOperator){
-        this.state.Operator[indexOperator] = e.target.value
-        this.setState({Operator: this.state.Operator})
+        //this.state.Operator[indexOperator] = e.target.value
+        //this.setState({ Operator: this.state.Operator })
+
+        this.setState(state => {
+
+            const list = state.Operator.push(e.target.value);
+            return { list };
+
+        });
     }
+
     handleOperatorRemove(indexOperator){
         this.state.Operator.splice(indexOperator,1)
         console.log(this.state.Operator, "OperatorRemove");
@@ -63,10 +81,19 @@ export default class Searchtest extends Component {
     addDropDownAndOr(){
         this.setState({DropDownAndOr: [...this.state.DropDownAndOr, ""]})
     }
+
     handleDropDownAndOrChange(e,indexDropDownAndOr){
-        this.state.DropDownAndOr[indexDropDownAndOr] = e.target.value
-        this.setState({DropDownAndOr: this.state.DropDownAndOr})
+        //this.state.DropDownAndOr[indexDropDownAndOr] = e.target.value
+        //this.setState({ DropDownAndOr: this.state.DropDownAndOr })
+
+        this.setState(state => {
+
+            const list = state.DropDownAndOr.push(e.taregt.value);
+            return { list };
+
+        });
     }
+
     handleDropDownAndOrRemove(indexDropDownAndOr){
         this.state.DropDownAndOr.splice(indexDropDownAndOr,1)
         console.log(this.state.DropDownAndOr, "DropDownAndOrRemove");
@@ -79,10 +106,19 @@ export default class Searchtest extends Component {
     addNameOfField(){
         this.setState({NameOfField: [...this.state.NameOfField, ""]})
     }
+
     handleNameOfFieldChange(e,indexNameOfField){
-        this.state.NameOfField[indexNameOfField] = e.target.value
-        this.setState({NameOfField: this.state.NameOfField})
+        //this.state.NameOfField[indexNameOfField] = e.target.value
+        //this.setState({ NameOfField: this.state.NameOfField })
+
+        this.setState(state => {
+
+            const list = state.NameOfField.push(e.target.value);
+            return { list };
+
+        });
     }
+
     handleNameOfFieldRemove(indexNameOfField){
         this.state.NameOfField.splice(indexNameOfField,1)
         console.log(this.state.NameOfField, "NameOfFiledRemove");
@@ -99,6 +135,7 @@ export default class Searchtest extends Component {
         this.addText();
 
     }
+
     RemoveGenarl(One){
         this.handleNameOfFieldRemove(One);
         this.handleDropDownAndOrRemove(One);
@@ -109,6 +146,7 @@ export default class Searchtest extends Component {
     handletimeChange(e){
         this.setState({time: e.target.value});
     }
+
     handleEndtimeChange(event){
         this.setState({Endtime: event.target.value});
     }

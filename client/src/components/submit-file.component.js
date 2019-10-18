@@ -50,7 +50,7 @@ export default class SubmitFile extends Component {
         })
         .then(function (res) {
             console.log(JSON.stringify(arguments))
-            if(res.status == 200)
+            if(res.status === 200)
             {
                 console.log(res.data);
                 alert("add article successfully");
