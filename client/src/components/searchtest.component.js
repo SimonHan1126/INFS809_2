@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 //import { isNullOrUndefined } from 'util';
 import axios from 'axios';
+import ReactDOM from 'react-dom';
 //import '../App.css';
 
 /**
@@ -20,7 +21,7 @@ export default class Searchtest extends Component {
           NameOfField: ['title'],
           Operator: ['Contains'],
             Textinput: ['Input'],
-            cQuery: ''
+            count: 1
         };
 
         this.handletimeChange = this.handletimeChange.bind(this);
@@ -51,7 +52,7 @@ export default class Searchtest extends Component {
         for (var i = 0; i !== this.state.Textinput.length; i++) {
 
            q[i] = '$' + this.state.DropDownAndOr[i] +
-                ': [{i},{' + this.state.NameOfField[i] +
+                ': [/r, {' + this.state.NameOfField[i] +
                 ': { $regex: ' + this.state.Textinput[i] +
                 ' , $options: "i"}}]'
            
@@ -59,17 +60,19 @@ export default class Searchtest extends Component {
 
         if (q.length > 1) {
 
-            for (var i = 0; i !== q.length; i++) {
+            for (i = 0; i !== q.length; i++) {
 
-                result = result.replace('{i}', q[i])
+                result = result.replace('/r', q[i])
 
             }
 
+            result.replace('/r, ', ' ');
             console.log("tag33: " + result);
             this.getResults(result);
 
         } else {
 
+            result.replace('/r, ', ' ');
             console.log("tag44: " + q[0]);
             this.getResults(q[0]);
             
@@ -190,13 +193,56 @@ export default class Searchtest extends Component {
         this.setState({NameOfField: this.state.NameOfField})
     }
 
+    ColumnManage() {
+        let arr = [];
+        let optionHtmlTag = <div>
+            <select name="NameOfField">
+                <option value="title">Article title</option>
+                <option value="journal">Article source</option>
+                <option value="author">Author</option></select>
+            <select name="DropDownAndOr">
+                <option value="and">And</option>
+                <option value="or">Or</option>
+                <option value="not">And not</option>
+                <option value="nor">Or not</option>
+            </select>
+            <select name="Operator">
+                <option value="Contains">Contains</option>
+                <option value="Does not contains">Does not contains</option>
+                <option value="Begin with">Begin with</option>
+                <option value="Ends with">Ends with</option>
+                <option value="Is equals to">Is equals to</option>
+                <option value="Is less than">Is less than</option>
+                <option value="More than or equal to">More than or equal to</option>
+            </select>
+        </div>
+
+        
+        for (var i = 0; i < this.state.count; i++) {
+
+            arr.push(optionHtmlTag);
+
+        }
+
+        var str = arr.map((item, index) => {
+
+            return <div>{item}</div>
+
+        })
+
+        const element = (<div>{str}</div>);
+        ReactDOM.render(element, document.getElementById('optionDIV'));
+    }
+
     //general several button options
-    AddGenarl(){
+    AddGenarl() {
+        
+
         this.addNameOfField();
         this.addDropDownAndOr();
         this.addOperator();
         this.addText();
-
+        this.setState({ count: this.state.count++ });
     }
 
     RemoveGenarl(One){
@@ -204,6 +250,8 @@ export default class Searchtest extends Component {
         this.handleDropDownAndOrRemove(One);
         this.handleOperatorRemove(One);
         this.handleTextinputRemove(One);
+
+        this.setState({ count: this.state.count-- });
     }
 
     handletimeChange(e){
@@ -219,7 +267,13 @@ export default class Searchtest extends Component {
       + this.state.Textinput);
       event.preventDefault();
     }
-    
+
+    componentDidMount() {
+
+        this.ColumnManage();
+
+    }
+
     render() {
       return (
           
@@ -229,86 +283,12 @@ export default class Searchtest extends Component {
             Date Range: <input type="date" name="StartDate" value={this.state.time} onChange={this.handletimeChange}/> to 
             <input type="date" name="EndDate" value={this.state.Endtime} onChange={this.handleEndtimeChange}/>
             <p></p>
-          
-              {/* name of filed select options  */}
-              
-           {
-               this.state.NameOfField.map((NameOfFieldInfo, indexNameOfField)=>{
-
-                   return (
-                       //<div className={indexNameOfField}>
-                       <select name="NameOfField" value={NameOfFieldInfo} onChange={(e) => this.handleNameOfFieldChange(e, indexNameOfField)} key={indexNameOfField}>
-                            <option value="title">Article title</option>
-                            <option value="journal">Article source</option>
-                            <option value="author">Author</option>
-                         </select>
-                    //</div>
-                )
-               })
-           }
-            {/* Drop down of the And and Or select option */}
-            {
-                this.state.DropDownAndOr.map((DropDownAndOrInfo, indexDropDownAndOr)=>{
-                   
-                    return (
-                        //<div className={indexDropDownAndOr}>
-                        <select name="DropDownAndOr" value={DropDownAndOrInfo} onChange={(e) => this.handleDropDownAndOrChange(e, indexDropDownAndOr)} key={indexDropDownAndOr}>
-                                <option value="and">And</option>
-                                <option value="or">Or</option>
-                                <option value="not">And not</option>
-                                <option value="nor">Or not</option>
-                            </select>
-                        //</div>
-                    )
-                })
-                
-            }
-            
-            {/* The operator select option */}
-            {
-                this.state.Operator.map((OperatorInfo, indexOperator)=>{
-
-                    return(
-                        
-                        //<div className={indexOperator}>
-                            
-                        <select name="Operator" value={OperatorInfo} onChange={(e) => this.handleOperatorChange(e, indexOperator)} key={indexOperator}>
-                                <option value="Contains">Contains</option>
-                                <option value="Does not contains">Does not contains</option>
-                                <option value="Begin with">Begin with</option>
-                                <option value="Ends with">Ends with</option>
-                                <option value="Is equals to">Is equals to</option>
-                                <option value="Is less than">Is less than</option>
-                                <option value="More than or equal to">More than or equal to</option>
-                            </select>
-                            
-                           
-                        //</div>
-                        
-                    )
-                })
-            }
-            
-            {/* <button onClick={(e)=>this.AddGenarl(e)}>addText</button> */}
-            {
-                this.state.Textinput.map((Text, index)=>{
-                    return(
-                        <div  className={index} className="input-group">
-
-                            <input type="search" onChange={(e) => this.handleTextinputChange(e, index)} value={Text} />
-                            
-                                <button onClick={() => this.handleTextinputRemove(index)} className="button">Remove Text</button>
-                            
-                        </div>
-                    )
-
-                })
-            
-            }
-            
+              <div id="optionDIV">
+                  
+              </div>
         <button onClick={(e)=>this.AddGenarl(e)}>Add</button>
               <button onClick={(e) => this.RemoveGenarl(e)}>Remove</button>
-              <input type="submit" value="Submit" onClick={() => this.getResults()} />
+              <input type="submit" value="Submit" onClick={() => this.generateQuery()} />
         </form>
        
       );
