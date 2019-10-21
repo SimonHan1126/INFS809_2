@@ -57,7 +57,7 @@ export default class Searchtest extends Component {
                 ' , $options: "i"}}]'
            
         }
-
+        console.log("q.length " + q.length);
         if (q.length > 1) {
 
             for (i = 0; i !== q.length; i++) {
@@ -218,27 +218,39 @@ export default class Searchtest extends Component {
         
         for (var index = 0; index < localCount; index++) {
             let optionHtmlTag = <div>
-                <select name="NameOfField">
-                    <option value="title">Article title</option>
-                    <option value="journal">Article source</option>
-                    <option value="author">Author</option></select>
-                <select name="DropDownAndOr">
-                    <option value="and">And</option>
-                    <option value="or">Or</option>
-                    <option value="not">And not</option>
-                    <option value="nor">Or not</option>
-                </select>
-                <select name="Operator">
-                    <option value="Contains">Contains</option>
-                    <option value="Does not contains">Does not contains</option>
-                    <option value="Begin with">Begin with</option>
-                    <option value="Ends with">Ends with</option>
-                    <option value="Is equals to">Is equals to</option>
-                    <option value="Is less than">Is less than</option>
-                    <option value="More than or equal to">More than or equal to</option>
-                </select>
+                <div key={index}>
+                    <select name="NameOfField" value={this.state.NameOfField[index]} onChange={this.handleNameOfFieldChange}>
+                        <option value="Article title">Article title</option>
+                        <option value="Article sourse">Article sourse</option>
+                        <option value="Author">Author</option>
+                    </select>
+                </div>
+
+                <div key={index}>
+                    <select name="DropDownAndOr" value={this.state.DropDownAndOr[index]} onChange={(e)=>this.handleDropDownAndOrChange(e,index)}>
+                        <option value="And">And</option>
+                        <option value="Or">Or</option>
+                        <option value="And not">And not</option>
+                        <option value="Or not">Or not</option>
+                    </select>
+                </div>
+
+                <div  style={{}} key={index}>
+
+                    <select  name="Operator" value={this.state.Operator[index]} onChange={(e)=>this.handleOperatorChange(e,index)}>
+                        <option value="Contains">Contains</option>
+                        <option value="Does not contains">Does not contains</option>
+                        <option value="Begin with">Begin with</option>
+                        <option value="Ends with">Ends with</option>
+                        <option value="Is equals to">Is equals to</option>
+                        <option value="Is less than">Is less than</option>
+                        <option value="More than or equal to">More than or equal to</option>
+                    </select>
+
+                </div>
+
                 <div  className={index} >
-                    <input type="search" onChange={(e) => this.handleTextinputChange(e, index)} />
+                    <input type="search" onChange={(e) => this.handleTextinputChange(e, index)} value={this.state.Textinput} />
                     <button onClick={() => this.handleTextinputRemove(index)} className="button">Remove Text</button>
                 </div>
             </div>
