@@ -237,14 +237,9 @@ export default class Searchtest extends Component {
                     <option value="Is less than">Is less than</option>
                     <option value="More than or equal to">More than or equal to</option>
                 </select>
-                <div  key={index} className="input-group">
-                    <div  className={index} >
-                        <input type="search" onChange={(e) => this.handleTextinputChange(e, index)} />
-                        <span className="input-group-btn">
-                        <button onClick={() => this.handleTextinputRemove(index)} className="button">Remove Text</button>
-                    </span>
-
-                    </div>
+                <div  className={index} >
+                    <input type="search" onChange={(e) => this.handleTextinputChange(e, index)} />
+                    <button onClick={() => this.handleTextinputRemove(index)} className="button">Remove Text</button>
                 </div>
             </div>
             arr.push(optionHtmlTag);
