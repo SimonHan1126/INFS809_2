@@ -79,14 +79,20 @@ router.post("/post", (req, res) => {
  */
 router.get("/", (req, res) => {
 
-        Article.find({
+    /*{
             $or: [{
                 title: { $regex: req.query.title, $options: 'i' },
                 author: { $regex: req.query.author, $options: 'i' }
             }]
             })
+            */
+    //Get query from params
+    let customQuery = req.query.customQuery;
+    console.log("tag: " + JSON.stringify(req.query.customQuery));
+    Article.find(customQuery)
     .then(data => {
-      res.json(data);
+        res.json(data);
+        console.log(data);
     })
     .catch(err => {
       res.status(400).json({ message: err });

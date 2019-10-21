@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 //import { isNullOrUndefined } from 'util';
-//import axios from 'axios';
+import axios from 'axios';
 //import '../App.css';
 
 /**
@@ -16,14 +16,93 @@ export default class Searchtest extends Component {
         this.state = {
           time: '00/00/0000',
           Endtime: '00/00/0000',
-          DropDownAndOr: ['And'],
-          NameOfField: ['Article title'],
-          Operator: ['Contains',],
-          Textinput: ['Input',]
-    };
-    this.handletimeChange = this.handletimeChange.bind(this);
-    this.handleEndtimeChange=this.handleEndtimeChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+          DropDownAndOr: ['and'],
+          NameOfField: ['title'],
+          Operator: ['Contains'],
+            Textinput: ['Input'],
+            cQuery: ''
+        };
+
+        this.handletimeChange = this.handletimeChange.bind(this);
+        this.handleEndtimeChange = this.handleEndtimeChange.bind(this);
+        this.handleNameOfFieldChange = this.handleNameOfFieldChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.generateQuery = this.generateQuery.bind(this);
+        this.getResults = this.getResults.bind(this);
+    }
+
+    /**
+     * Creates a query based on UI inputs
+     * Created by James Hughes
+     * */
+    generateQuery = () => {
+
+        let q = [];
+        let result = '{i}';
+        
+        /*
+         * $or: [{
+                title: { $regex: req.query.title, $options: 'i' },
+                author: { $regex: req.query.author, $options: 'i' }
+            }]
+         */
+
+        //Loop through all arrays and combine them to make a query
+        for (var i = 0; i !== this.state.Textinput.length; i++) {
+
+           q[i] = '$' + this.state.DropDownAndOr[i] +
+                ': [{i},{' + this.state.NameOfField[i] +
+                ': { $regex: ' + this.state.Textinput[i] +
+                ' , $options: "i"}}]'
+           
+        }
+
+        if (q.length > 1) {
+
+            for (var i = 0; i !== q.length; i++) {
+
+                result = result.replace('{i}', q[i])
+
+            }
+
+            console.log("tag33: " + result);
+            this.getResults(result);
+
+        } else {
+
+            console.log("tag44: " + q[0]);
+            this.getResults(q[0]);
+            
+        }
+        
+    }
+
+    /**
+     * Gets table body
+     * Created by James Hughes
+     * */
+    getResults = (param) => {
+
+        axios.get('articles/', {
+            
+            params: {
+
+                customQuery: param
+
+            }
+        })
+            .then(response => {
+
+                console.log(response)
+
+
+            })
+            .catch(err => {
+
+                console.log(err);
+
+            });
+
     }
     
     // Text add and remove
@@ -49,7 +128,7 @@ export default class Searchtest extends Component {
 
     //Operater add and remove
     addOperator(){
-        this.setState({Operator: [...this.state.Operator, ""]})
+        this.setState({Operator: [...this.state.Operator, "Contains"]})
     }
 
     handleOperatorChange(e, indexOperator){
@@ -69,7 +148,7 @@ export default class Searchtest extends Component {
 
     //DropdownAndOr add and remove 
     addDropDownAndOr(){
-        this.setState({DropDownAndOr: [...this.state.DropDownAndOr, ""]})
+        this.setState({DropDownAndOr: [...this.state.DropDownAndOr, "and"]})
     }
 
     handleDropDownAndOrChange(e,indexDropDownAndOr){
@@ -92,13 +171,11 @@ export default class Searchtest extends Component {
 
     //Name of Field  add and remove
     addNameOfField(){
-        this.setState({NameOfField: [...this.state.NameOfField, ""]})
+        this.setState({NameOfField: [...this.state.NameOfField, "title"]})
     }
 
     handleNameOfFieldChange(e,indexNameOfField){
 
-
-        //??????????????????????????????/
         let NameOfField = [...this.state.NameOfField];
         NameOfField[indexNameOfField] = e.target.value;
         this.setState({ NameOfField });
@@ -107,7 +184,7 @@ export default class Searchtest extends Component {
 
     handleNameOfFieldRemove(indexNameOfField){
         this.state.NameOfField.splice(indexNameOfField,1)
-        console.log(this.state.NameOfField, "NameOfFiledRemove");
+        console.log(this.state.NameOfField, "NameOfFieldRemove");
 
         //update the data
         this.setState({NameOfField: this.state.NameOfField})
@@ -115,17 +192,17 @@ export default class Searchtest extends Component {
 
     //general several button options
     AddGenarl(){
-        //this.addNameOfField();
-        //this.addDropDownAndOr();
-        //this.addOperator();
+        this.addNameOfField();
+        this.addDropDownAndOr();
+        this.addOperator();
         this.addText();
 
     }
 
     RemoveGenarl(One){
-        //this.handleNameOfFieldRemove(One);
-        //this.handleDropDownAndOrRemove(One);
-        //this.handleOperatorRemove(One);
+        this.handleNameOfFieldRemove(One);
+        this.handleDropDownAndOrRemove(One);
+        this.handleOperatorRemove(One);
         this.handleTextinputRemove(One);
     }
 
@@ -153,34 +230,35 @@ export default class Searchtest extends Component {
             <input type="date" name="EndDate" value={this.state.Endtime} onChange={this.handleEndtimeChange}/>
             <p></p>
           
-          {/* name of filed select options  */}
+              {/* name of filed select options  */}
+              
            {
                this.state.NameOfField.map((NameOfFieldInfo, indexNameOfField)=>{
 
-                return(
-                    <div key={indexNameOfField}>
-                        <select name="NameOfField" value={NameOfFieldInfo} onChange={this.handleNameOfFieldChange}>
-                            <option value="Article title">Article title</option>
-                            <option value="Article sourse">Article source</option>
-                            <option value="Author">Author</option>
+                   return (
+                       //<div className={indexNameOfField}>
+                       <select name="NameOfField" value={NameOfFieldInfo} onChange={(e) => this.handleNameOfFieldChange(e, indexNameOfField)} key={indexNameOfField}>
+                            <option value="title">Article title</option>
+                            <option value="journal">Article source</option>
+                            <option value="author">Author</option>
                          </select>
-                    </div>
+                    //</div>
                 )
                })
            }
             {/* Drop down of the And and Or select option */}
             {
                 this.state.DropDownAndOr.map((DropDownAndOrInfo, indexDropDownAndOr)=>{
-
-                    return(
-                        <div key={indexDropDownAndOr}>
-                            <select name="DropDownAndOr" value={DropDownAndOrInfo} onChange={(e)=>this.handleDropDownAndOrChange(e,indexDropDownAndOr)}>
-                                <option value="And">And</option>
-                                <option value="Or">Or</option>
-                                <option value="And not">And not</option>
-                                <option value="Or not">Or not</option>
+                   
+                    return (
+                        //<div className={indexDropDownAndOr}>
+                        <select name="DropDownAndOr" value={DropDownAndOrInfo} onChange={(e) => this.handleDropDownAndOrChange(e, indexDropDownAndOr)} key={indexDropDownAndOr}>
+                                <option value="and">And</option>
+                                <option value="or">Or</option>
+                                <option value="not">And not</option>
+                                <option value="nor">Or not</option>
                             </select>
-                        </div>
+                        //</div>
                     )
                 })
                 
@@ -192,9 +270,9 @@ export default class Searchtest extends Component {
 
                     return(
                         
-                        <div  style={{}} key={indexOperator}>
+                        //<div className={indexOperator}>
                             
-                            <select  name="Operator" value={OperatorInfo} onChange={(e)=>this.handleOperatorChange(e,indexOperator)}>
+                        <select name="Operator" value={OperatorInfo} onChange={(e) => this.handleOperatorChange(e, indexOperator)} key={indexOperator}>
                                 <option value="Contains">Contains</option>
                                 <option value="Does not contains">Does not contains</option>
                                 <option value="Begin with">Begin with</option>
@@ -204,9 +282,8 @@ export default class Searchtest extends Component {
                                 <option value="More than or equal to">More than or equal to</option>
                             </select>
                             
-                            {/* <button onClick={()=>this.handleOperatorRemove(indexOperator)}>RemoveOperator</button> 
-                                this will create a individual button to remove this function*/}
-                        </div>
+                           
+                        //</div>
                         
                     )
                 })
@@ -216,12 +293,12 @@ export default class Searchtest extends Component {
             {
                 this.state.Textinput.map((Text, index)=>{
                     return(
-                        <div  key={index} className="input-group">
+                        <div  className={index} className="input-group">
 
                             <input type="search" onChange={(e) => this.handleTextinputChange(e, index)} value={Text} />
-                            <span className="input-group-btn">
+                            
                                 <button onClick={() => this.handleTextinputRemove(index)} className="button">Remove Text</button>
-                            </span>
+                            
                         </div>
                     )
 
@@ -230,8 +307,8 @@ export default class Searchtest extends Component {
             }
             
         <button onClick={(e)=>this.AddGenarl(e)}>Add</button>
-        <button onClick={(e)=>this.RemoveGenarl(e)}>Remove</button>
-          <input type="submit" value="Submit" />
+              <button onClick={(e) => this.RemoveGenarl(e)}>Remove</button>
+              <input type="submit" value="Submit" onClick={() => this.getResults()} />
         </form>
        
       );
