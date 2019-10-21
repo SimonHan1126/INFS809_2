@@ -22,6 +22,9 @@ const userSchema = new Schema(
             unique: false,
             trim: true,
             minlength: 8
+        },
+        islogin : {
+            type: Boolean
         }
     },
   {

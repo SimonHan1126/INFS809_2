@@ -70,7 +70,9 @@ var _utf8_encode = function (string) {
 var _utf8_decode = function (utftext) {
     var string = "";
     var i = 0;
-    var c = c1 = c2 = 0;
+    var c = 0;
+    var c1 = 0;
+    var c2 = 0
     while ( i < utftext.length ) {
         c = utftext.charCodeAt(i);
         if (c < 128) {
@@ -82,7 +84,7 @@ var _utf8_decode = function (utftext) {
             i += 2;
         } else {
             c2 = utftext.charCodeAt(i+1);
-            c3 = utftext.charCodeAt(i+2);
+            var c3 = utftext.charCodeAt(i+2);
             string += String.fromCharCode(((c & 15) << 12) | ((c2 & 63) << 6) | (c3 & 63));
             i += 3;
         }

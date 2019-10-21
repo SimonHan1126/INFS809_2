@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import userUtil from "../util/userUtil"
 
 /**
  * This represents a single row in a table used in mapping 
@@ -48,8 +49,7 @@ export default class RepositoryList extends Component {
     componentDidMount() {
 
         this.updateList();
-        
-        
+        userUtil.loginBar();
     }
 
     /**
