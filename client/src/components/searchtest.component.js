@@ -21,7 +21,7 @@ export default class Searchtest extends Component {
           NameOfField: ['title'],
           Operator: ['Contains'],
             Textinput: ['Input'],
-            count: 1
+            count: 0
         };
 
         this.handletimeChange = this.handletimeChange.bind(this);
@@ -193,7 +193,25 @@ export default class Searchtest extends Component {
         this.setState({NameOfField: this.state.NameOfField})
     }
 
-    ColumnManage() {
+    ColumnManage(isAdd) {
+
+        var localCount = this.state.count;
+        if(!!isAdd)
+        {
+            //
+            localCount++;
+        }
+        else
+        {
+            localCount--;
+            // this.setState({ count: this.state.count-- });
+            if(localCount <= 0)
+            {
+                localCount = 1;
+            }
+        }
+
+        this.setState({ count: localCount });
         let arr = [];
         let optionHtmlTag = <div>
             <select name="NameOfField">
@@ -215,10 +233,17 @@ export default class Searchtest extends Component {
                 <option value="Is less than">Is less than</option>
                 <option value="More than or equal to">More than or equal to</option>
             </select>
+            <div className="input-group">
+                <input type="search" onChange={(e) => this.handleTextinputChange(e)} />
+                <span className="input-group-btn">
+
+                    <button onClick={() => this.handleTextinputRemove()} className="button">Remove Text</button>
+                </span>
+            </div>
         </div>
 
         
-        for (var i = 0; i < this.state.count; i++) {
+        for (var i = 0; i < localCount; i++) {
 
             arr.push(optionHtmlTag);
 
@@ -227,7 +252,6 @@ export default class Searchtest extends Component {
         var str = arr.map((item, index) => {
 
             return <div>{item}</div>
-
         })
 
         const element = (<div>{str}</div>);
@@ -242,7 +266,7 @@ export default class Searchtest extends Component {
         this.addDropDownAndOr();
         this.addOperator();
         this.addText();
-        this.setState({ count: this.state.count++ });
+        this.ColumnManage(true);
     }
 
     RemoveGenarl(One){
@@ -250,8 +274,7 @@ export default class Searchtest extends Component {
         this.handleDropDownAndOrRemove(One);
         this.handleOperatorRemove(One);
         this.handleTextinputRemove(One);
-
-        this.setState({ count: this.state.count-- });
+        this.ColumnManage(false);
     }
 
     handletimeChange(e){
@@ -269,9 +292,7 @@ export default class Searchtest extends Component {
     }
 
     componentDidMount() {
-
-        this.ColumnManage();
-
+        this.ColumnManage(true);
     }
 
     render() {
@@ -286,7 +307,7 @@ export default class Searchtest extends Component {
               <div id="optionDIV">
                   
               </div>
-        <button onClick={(e)=>this.AddGenarl(e)}>Add</button>
+              <button onClick={(e)=>this.AddGenarl(e)}>Add</button>
               <button onClick={(e) => this.RemoveGenarl(e)}>Remove</button>
               <input type="submit" value="Submit" onClick={() => this.generateQuery()} />
         </form>
