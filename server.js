@@ -45,6 +45,9 @@ app.use("/users", usersRouter);
 const tempArticlesRouter = require("./routes/submission");
 app.use("/submission", tempArticlesRouter);
 
+const whitelistRouter = require("./routes/whitelist");
+app.use("/whitelist", whitelistRouter);
+
 //This is code for serving react through express
 
 app.use(express.static(path.join(__dirname, "client/build")));

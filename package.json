@@ -12,6 +12,7 @@
   "scripts": {
     "start": "nodemon server.js",
     "test": "mocha --require babel-register tests/*test.js --exit",
+    "addwhitelist": "mocha --require babel-register tests/addWhitelist.js --exit",
     "dev": "nodemon --exec babel-node --presets babel-preset-env ./app.js"
   },
   "repository": {

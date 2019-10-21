@@ -11,10 +11,8 @@ chai.should();
 
 describe("save article ", () => {
 
-    var param = {
-        title: "drawbacks of small-sized mobile system",
-        author: "Frank Gallagher"
-    };
+    var bibtexString = "QGJvb2t7Ymh1cHRhbmkyMDA1cmZpZCwKICB0aXRsZT17UkZJRCBmaWVsZCBndWlkZTogZGVwbG95aW5nIHJhZGlvIGZyZXF1ZW5jeSBpZGVudGlmaWNhdGlvbiBzeXN0ZW1zfSwKICBhdXRob3I9e0JodXB0YW5pLCBNYW5pc2ggYW5kIE1vcmFkcG91ciwgU2hhaHJhbX0sCiAgeWVhcj17MjAwNX0sCiAgcHVibGlzaGVyPXtQcmVudGljZSBIYWxsIFBUUn0KfQ==";
+    var param = {"params":{"bibTex" : bibtexString}}
 
     it("save article request", done => {
         chai

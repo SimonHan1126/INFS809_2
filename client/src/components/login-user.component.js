@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import userUtil from "../util/userUtil"
 
 /**
  * User view of login page, enables functions through GUI interaction
@@ -40,29 +41,40 @@ export default class LoginUsers extends Component {
     }
 
     onSubmit(e) {
-
+        let username = this.state.username;
         e.preventDefault();
-        //const user = {
-            //username: this.state.username,
-           // password: this.state.password
-        //}
         axios.post('/users/auth', {
             params: {
-                username: this.state.username,
+                username: username,
                 password: this.state.password
             }
         })
-            //.then(res => console.log(res.data));
 
             .then(function (res) {
 
                 if(!res.data.err)
                 {
-                    console.log(res.data.username + " login successfully");
+                    alert(res.data.username + " login successfully");
+
+                    axios.post('/whitelist/findOne', {username:username})
+                        .then(function (res) {
+
+                            if(!!res.err)
+                            {
+                                alert(res.err);
+                            }
+                            else
+                            {
+                                console.log("this is login 1111 " + username)
+                                userUtil.setCurrentUsername(username)
+                                userUtil.loginBar();
+                            }
+                        });
                 }
                 else
                 {
                     console.log("status " + res.status + " error " + res.data.err)
+                    alert(res.data.err);
                 }
             });
     }
