@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import userUtil from "../util/userUtil"
+//import { isNullOrUndefined } from 'util';
+//import axios from 'axios';
+//import '../App.css';
 
 /**
  * Advance search UI interface with add and remove functions.
@@ -154,13 +156,6 @@ export default class Searchtest extends Component {
       + this.state.Textinput);
       event.preventDefault();
     }
-
-    componentDidMount() {
-
-        // / console.log("userUtil.getCurrentUsername() " + userUtil.getCurrentUsername())
-        // userUtil.islogin(userUtil.getCurrentUsername());
-        userUtil.loginBar();
-    };
     
     render() {
       return (

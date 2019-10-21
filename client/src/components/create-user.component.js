@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import userUtil from "../util/userUtil"
 
 /**
  * User view of registration page, enables functions through GUI interactions
@@ -38,7 +37,6 @@ export default class CreateUsers extends Component {
 
     }
 
-
     onSubmit(e) {
 
         e.preventDefault();
@@ -49,20 +47,7 @@ export default class CreateUsers extends Component {
 
         axios.post('/users/add', user)
             .then(function (res) {
-                axios.post('/whitelist/findOne', {username:"simonHan"})
-                    .then(function (res) {
-
-                        if(!!res.err)
-                        {
-                            alert(res.err);
-                        }
-                        else
-                        {
-                            userUtil.registerBar();
-                        }
-
-                    });
-
+                console.log(res.data)
             });
 
         //Redirect user after signin

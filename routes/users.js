@@ -26,30 +26,16 @@ router.route("/add").post((req, res) => {
     const username = req.body.username;
     const password = req.body.password;
     console.log("this user.js add username " + username + " password " + password);
+  const newUser = new User({ username, password });
+  newUser
+    .save()
+    .then(() => res.json("User added!"))
+    // .catch(err => res.status(400).json("Error: " + err)
+        .catch(function (err) {
 
-    User.findOne({"username":username,"password":password})
-    // .then(users => res.json(users))
-        .then(function (data) {
-            if(!data)
-            {
-                const newUser = new User({ username, password });
-                newUser
-                    .save()
-                    .then(() => res.json("User added!"))
-                    // .catch(err => res.status(400).json("Error: " + err)
-                    .catch(function (err) {
-
-                        console.log("this is err " + err);
-                        res.status(400).json("Error: " + err);
-                    });
-            }
-            else
-            {
-                res.json("User exist! Please login!");
-            }
-        });
-
-
+            console.log("this is err " + err);
+            res.status(400).json("Error: " + err);
+    });
 });
 
 /*
@@ -60,7 +46,8 @@ router.route("/add").post((req, res) => {
 router.route("/auth").post((req, res) => {
     const username = req.body.params.username;
     const password = req.body.params.password;
-
+    console.log("this user.js login ******777777 username " + username + " password " + password + " --- req.body " + JSON.stringify(req.body));
+    // User.find({ "username": username, "password": password })
     User.findOne({"username":username,"password":password})
     // .then(users => res.json(users))
         .then(function (data) {
@@ -70,23 +57,7 @@ router.route("/auth").post((req, res) => {
             }
 
             res.json(data);
-        })
-        .catch(err => res.status(400).json("Error: " + err));
-});
-
-router.route("/islogin").post((req, res) => {
-
-    const username = req.body.params.username;
-
-    User.findOne({"username":username})
-    // .then(users => res.json(users))
-        .then(function (data) {
-            if(!data)
-            {
-                data = {"err" : "Error: username does not exist"};
-            }
-
-            res.json(data);
+            console.log("this user.js after auth request ssss arguments " + JSON.stringify(arguments) + " data " + JSON.stringify(data))
         })
         .catch(err => res.status(400).json("Error: " + err));
 });
