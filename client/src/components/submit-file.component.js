@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
+import userUtil from "../util/userUtil"
 
 export default class SubmitFile extends Component {
 
@@ -85,6 +86,10 @@ export default class SubmitFile extends Component {
                 alert("An error occurred. Please try again later");
             }
         });
+    }
+
+    componentDidMount() {
+        userUtil.loginBar();
     }
 
     render() {
