@@ -218,24 +218,24 @@ export default class Searchtest extends Component {
         
         for (var index = 0; index < localCount; index++) {
             let optionHtmlTag = <div>
-                <div key={index}>
+                {/*<div key={index}>*/}
                     <select name="NameOfField" value={this.state.NameOfField[index]} onChange={this.handleNameOfFieldChange}>
                         <option value="Article title">Article title</option>
                         <option value="Article sourse">Article sourse</option>
                         <option value="Author">Author</option>
                     </select>
-                </div>
+                {/*</div>*/}
 
-                <div key={index}>
+                {/*<div key={index}>*/}
                     <select name="DropDownAndOr" value={this.state.DropDownAndOr[index]} onChange={(e)=>this.handleDropDownAndOrChange(e,index)}>
                         <option value="And">And</option>
                         <option value="Or">Or</option>
                         <option value="And not">And not</option>
                         <option value="Or not">Or not</option>
                     </select>
-                </div>
+                {/*</div>*/}
 
-                <div  style={{}} key={index}>
+                {/*<div  style={{}} key={index}>*/}
 
                     <select  name="Operator" value={this.state.Operator[index]} onChange={(e)=>this.handleOperatorChange(e,index)}>
                         <option value="Contains">Contains</option>
@@ -247,10 +247,10 @@ export default class Searchtest extends Component {
                         <option value="More than or equal to">More than or equal to</option>
                     </select>
 
-                </div>
+                {/*</div>*/}
 
                 <div  className={index} >
-                    <input type="search" onChange={(e) => this.handleTextinputChange(e, index)} value={this.state.Textinput} />
+                    <input type="search" onChange={(e) => this.handleTextinputChange(e, index)}  />
                     <button onClick={() => this.handleTextinputRemove(index)} className="button">Remove Text</button>
                 </div>
             </div>
