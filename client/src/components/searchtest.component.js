@@ -213,38 +213,40 @@ export default class Searchtest extends Component {
 
         this.setState({ count: localCount });
         let arr = [];
-        let optionHtmlTag = <div>
-            <select name="NameOfField">
-                <option value="title">Article title</option>
-                <option value="journal">Article source</option>
-                <option value="author">Author</option></select>
-            <select name="DropDownAndOr">
-                <option value="and">And</option>
-                <option value="or">Or</option>
-                <option value="not">And not</option>
-                <option value="nor">Or not</option>
-            </select>
-            <select name="Operator">
-                <option value="Contains">Contains</option>
-                <option value="Does not contains">Does not contains</option>
-                <option value="Begin with">Begin with</option>
-                <option value="Ends with">Ends with</option>
-                <option value="Is equals to">Is equals to</option>
-                <option value="Is less than">Is less than</option>
-                <option value="More than or equal to">More than or equal to</option>
-            </select>
-            <div className="input-group">
-                <input type="search" onChange={(e) => this.handleTextinputChange(e)} />
-                <span className="input-group-btn">
 
-                    <button onClick={() => this.handleTextinputRemove()} className="button">Remove Text</button>
-                </span>
-            </div>
-        </div>
 
         
-        for (var i = 0; i < localCount; i++) {
+        for (var index = 0; index < localCount; index++) {
+            let optionHtmlTag = <div>
+                <select name="NameOfField">
+                    <option value="title">Article title</option>
+                    <option value="journal">Article source</option>
+                    <option value="author">Author</option></select>
+                <select name="DropDownAndOr">
+                    <option value="and">And</option>
+                    <option value="or">Or</option>
+                    <option value="not">And not</option>
+                    <option value="nor">Or not</option>
+                </select>
+                <select name="Operator">
+                    <option value="Contains">Contains</option>
+                    <option value="Does not contains">Does not contains</option>
+                    <option value="Begin with">Begin with</option>
+                    <option value="Ends with">Ends with</option>
+                    <option value="Is equals to">Is equals to</option>
+                    <option value="Is less than">Is less than</option>
+                    <option value="More than or equal to">More than or equal to</option>
+                </select>
+                <div  key={index} className="input-group">
+                    <div  className={index} >
+                        <input type="search" onChange={(e) => this.handleTextinputChange(e, index)} />
+                        <span className="input-group-btn">
+                        <button onClick={() => this.handleTextinputRemove(index)} className="button">Remove Text</button>
+                    </span>
 
+                    </div>
+                </div>
+            </div>
             arr.push(optionHtmlTag);
 
         }
