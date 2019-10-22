@@ -95,8 +95,50 @@ export default class Searchtest extends Component {
         })
             .then(response => {
 
-                console.log(response)
+                console.log(response.data)
+                // var htmlArray = [];
+                var itemTypeArray = [];
+                var itemTypeObj = {};
 
+                var itemValueTRArray = [];
+                var resultData = response.data || [];
+                console.log(JSON.stringify(resultData) + " length " + resultData.length);
+                for(var resultDataKey in resultData)
+                {
+                    var itemData = resultData[resultDataKey];
+                    delete itemData._id;
+                    delete itemData.createdAt;
+                    delete itemData.updatedAt;
+                    delete itemData.__v;
+                    console.log(JSON.stringify(itemData) + " " + resultDataKey);
+                    var itemValueTDArray = [];
+                    for(var itemDatakey in itemData)
+                    {
+                        itemTypeObj[itemDatakey] = <th>{itemDatakey}</th>;
+                        // itemTypeArray.push(<th>{itemDatakey}</th>)
+                        itemValueTDArray.push(<td>{itemData[itemDatakey]}</td>);
+                    }
+
+                    itemValueTRArray.push(<tr>{itemValueTDArray}</tr>);
+                }
+                console.log("itemValueTRArray " + JSON.stringify(itemValueTRArray));
+                for(var i in itemTypeObj)
+                {
+                    itemTypeArray.push(itemTypeObj[i]);
+                }
+
+                var htmlTag = <table class="table">
+                    <thead class="thead_light">
+                    <tr>
+                        {itemTypeArray}
+                    </tr>
+                    </thead>
+                    <tbody>
+                        {itemValueTRArray}
+                    </tbody>
+                </table>
+
+                ReactDOM.render(htmlTag, document.getElementById('resultDiv'));
 
             })
             .catch(err => {
@@ -324,6 +366,10 @@ export default class Searchtest extends Component {
                 <button onClick={(e)=>this.AddGenarl(e)}>Add</button>
                 <button onClick={(e) => this.RemoveGenarl(e)}>Remove</button>
                 <input type="submit" value="Submit" onClick={() => this.generateQuery()} />
+                <div id="resultDiv">
+
+
+                </div>
             </form>
 
         );

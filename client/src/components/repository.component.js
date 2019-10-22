@@ -82,54 +82,76 @@ export default class RepositoryList extends Component {
      * */
     updateList() {
 
-        if (!this.state.used) {
+        var param = {"$and": [{"title" : {"$regex" : this.state.specSearch, "$options" :"i"}}]}
+        axios.get('http://localhost:5000/articles/', {
+            params: {
 
-            axios.get('http://localhost:5000/articles/', {
-                params: {
+                customQuery: param
+            }
 
-                    title: this.state.specSearch,
-                    author: ''
-                }
+        })
+            .then(response => {
+
+                this.setState({
+                    search: response.data,
+                    used: true
+                })
 
             })
-                .then(response => {
+            .catch((error) => {
 
-                    this.setState({
-                        search: response.data,
-                        used: true
-                    })
+                console.log(error);
 
-                })
-                .catch((error) => {
+            });
 
-                    console.log(error);
-
-                });
-
-        } else {
-
-            axios.get('http://localhost:5000/articles/', {
-                params: {
-
-                    title: this.state.specSearch,
-                    author: ''
-
-                }
-                })
-                .then(response => {
-                    this.setState({
-
-                        search: response.data,
-                        used: true
-
-                    })
-                })
-                .catch((error) => {
-
-                    console.log(error);
-
-                });
-        }
+        // if (!this.state.used) {
+        //
+        //     axios.get('http://localhost:5000/articles/', {
+        //         params: {
+        //
+        //             title: this.state.specSearch,
+        //             author: ''
+        //         }
+        //
+        //     })
+        //         .then(response => {
+        //
+        //             this.setState({
+        //                 search: response.data,
+        //                 used: true
+        //             })
+        //
+        //         })
+        //         .catch((error) => {
+        //
+        //             console.log(error);
+        //
+        //         });
+        //
+        // } else {
+        //
+        //     axios.get('http://localhost:5000/articles/', {
+        //         params: {
+        //
+        //             title: this.state.specSearch,
+        //             author: ''
+        //
+        //         }
+        //         })
+        //         .then(response => {
+        //             this.setState({
+        //
+        //                 search: response.data,
+        //                 used: true
+        //
+        //             })
+        //         })
+        //         .catch((error) => {
+        //
+        //             console.log(error);
+        //
+        //         });
+        // }
     }
 
     /**
@@ -139,7 +161,7 @@ export default class RepositoryList extends Component {
     updateSearchValue(e) {
 
         this.setState({ specSearch: e.target.value })
-
+        this.updateList();
     }
 
     onClick() {
@@ -182,12 +204,12 @@ export default class RepositoryList extends Component {
                             onChange={e => this.updateSearchValue(e)}
                     />
                 </div>
-                <div className="form-group">
-                    <input type="submit" value="Search" className="btn btn-primary" />
-                    </div>
-                    <div>
-                        <input type="submit" value="test query" className="btn btn-primary" onClick={this.onClick} />
-                        </div>
+                {/*<div className="form-group">*/}
+                    {/*<input type="submit" value="Search" className="btn btn-primary" />*/}
+                    {/*</div>*/}
+                    {/*<div>*/}
+                        {/*<input type="submit" value="test query" className="btn btn-primary" onClick={this.onClick} />*/}
+                        {/*</div>*/}
                     </form>
                 <table className="table">
                     <thead className="thead_light">
