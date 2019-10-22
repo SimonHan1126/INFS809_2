@@ -87,15 +87,16 @@ router.get("/", (req, res) => {
             })
             */
     //Get query from params
-    let customQuery = req.query.customQuery;
+    let customQuery = JSON.parse(req.query.customQuery);
     console.log("tag: " + JSON.stringify(req.query.customQuery));
     Article.find(customQuery)
     .then(data => {
         res.json(data);
         console.log(data);
     })
-    .catch(err => {
-      res.status(400).json({ message: err });
+    .catch(function (err) {
+        console.log(err);
+        res.status(400).json({ message: err });
     });
 });
 

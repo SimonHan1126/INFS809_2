@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 //import { isNullOrUndefined } from 'util';
 import axios from 'axios';
+import ReactDOM from 'react-dom';
 //import '../App.css';
 
 /**
@@ -19,8 +20,8 @@ export default class Searchtest extends Component {
             DropDownAndOr: ['and'],
             NameOfField: ['title'],
             Operator: ['Contains'],
-            Textinput: ['Input'],
-            cQuery: ''
+            Textinput: [],
+            count: 0
         };
 
         this.handletimeChange = this.handletimeChange.bind(this);
@@ -33,12 +34,13 @@ export default class Searchtest extends Component {
 
     /**
      * Creates a query based on UI inputs
-     * Created by James Hughes
+     * Created by James Hughes modified by Simon
      * */
     generateQuery = () => {
 
         let q = [];
-        let result = '{i}';
+
+        let result = {};
 
         /*
          * $or: [{
@@ -50,32 +52,32 @@ export default class Searchtest extends Component {
         //Loop through all arrays and combine them to make a query
         for (var i = 0; i !== this.state.Textinput.length; i++) {
 
-            q[i] = '$' + this.state.DropDownAndOr[i] +
-                ': [{i},{' + this.state.NameOfField[i] +
-                ': { $regex: ' + this.state.Textinput[i] +
-                ' , $options: "i"}}]'
-
+            var itemRegex = {};
+            // {"$and": [{"title" : {"$regex" : "Pattern","$options" :"i"}}]}
+            itemRegex[this.state.NameOfField[i]] ={"$regex" : this.state.Textinput[i], "$options" : "i"} ;
+            var key = "$" + this.state.DropDownAndOr[i];
+            result[key]=  result[key] || [];
+            result[key].push(itemRegex);
         }
 
-        if (q.length > 1) {
-
-            for (var i = 0; i !== q.length; i++) {
-
-                result = result.replace('{i}', q[i])
-
+        if(!!this.state.time && !! this.state.Endtime)
+        {
+            // var startTimeDate = new Date(Date.parse(this.state.time));
+            // var endTimeDate = new Date(Date.parse(this.state.Endtime));
+            var startTimeDate = new Date(this.state.time);
+            var endTimeDate = new Date(this.state.Endtime);
+            if(startTimeDate < endTimeDate)
+            {
+                var yearItemRegex ={ "year": { "$gte": startTimeDate.getFullYear() ,"$lte": endTimeDate.getFullYear() } } ;
+                result["$and"] = result["$and"] || [];
+                result["$and"].push(yearItemRegex);
             }
-
-            console.log("tag33: " + result);
-            this.getResults(result);
-
-        } else {
-
-            console.log("tag44: " + q[0]);
-            this.getResults(q[0]);
-
         }
 
-    }
+        console.log("q.length " + q.length + " Textinput " + JSON.stringify(this.state.Textinput) + " NameOfField " + JSON.stringify(this.state.NameOfField) + " DropDownAndOr " +JSON.stringify(this.state.DropDownAndOr) + " q " + JSON.stringify(result));
+
+        this.getResults(result);
+    };
 
     /**
      * Gets table body
@@ -107,14 +109,20 @@ export default class Searchtest extends Component {
 
     // Text add and remove
     addText(){
+        console.log("addText Textinput 11111 " + JSON.stringify(this.state.Textinput));
         this.setState({Textinput: [...this.state.Textinput, ""]})
+        console.log("addText Textinput 22222 " + JSON.stringify(this.state.Textinput));
     }
 
     handleTextinputChange(e, index){
-
+        index--;
+        console.log("addText handleTextinputChange 11111 " + JSON.stringify(this.state.Textinput) + " index " + index + " e.target " + e.target.value);
         let Textinput = [...this.state.Textinput];
+        console.log("addText handleTextinputChange 22222 " + JSON.stringify(this.state.Textinput) + " Textinput " + JSON.stringify(Textinput));
         Textinput[index] = e.target.value;
+        console.log("addText handleTextinputChange 33333 " + JSON.stringify(this.state.Textinput) + " Textinput " + JSON.stringify(Textinput));
         this.setState({ Textinput });
+        console.log("addText handleTextinputChange 44444 " + JSON.stringify(this.state.Textinput) + " Textinput " + JSON.stringify(Textinput));
     }
 
     handleTextinputRemove(index) {
@@ -123,6 +131,7 @@ export default class Searchtest extends Component {
         items.splice(index, 1);
         console.log(this.state.Textinput, "Textinput Removed");
         this.setState({ TextInput: items });
+        console.log("addText handleTextinputRemove 111111 " + JSON.stringify(this.state.Textinput));
 
     }
 
@@ -132,7 +141,7 @@ export default class Searchtest extends Component {
     }
 
     handleOperatorChange(e, indexOperator){
-
+        indexOperator--;
         let Operator = [...this.state.Operator];
         Operator[indexOperator] = e.target.value;
         this.setState({ Operator });
@@ -152,7 +161,7 @@ export default class Searchtest extends Component {
     }
 
     handleDropDownAndOrChange(e,indexDropDownAndOr){
-
+        indexDropDownAndOr--;
         //We mutate outside of the state then change the value with set state
         //This adheres to the immutablility of states
         let DropDownAndOr = [...this.state.DropDownAndOr];
@@ -175,7 +184,7 @@ export default class Searchtest extends Component {
     }
 
     handleNameOfFieldChange(e,indexNameOfField){
-
+        indexNameOfField--;
         let NameOfField = [...this.state.NameOfField];
         NameOfField[indexNameOfField] = e.target.value;
         this.setState({ NameOfField });
@@ -190,13 +199,88 @@ export default class Searchtest extends Component {
         this.setState({NameOfField: this.state.NameOfField})
     }
 
+    ColumnManage(isAdd) {
+
+        var localCount = this.state.count;
+        if(!!isAdd)
+        {
+            //
+            localCount++;
+        }
+        else
+        {
+            localCount--;
+            if(localCount <= 0)
+            {
+                localCount = 1;
+            }
+        }
+
+        this.setState({ count: localCount });
+        let arr = [];
+
+        for (var index = 0; index < localCount; index++) {
+            let optionHtmlTag = <div>
+                {/*<div key={index}>*/}
+                <select name="NameOfField" value={this.state.NameOfField[index]} onChange={(e)=>this.handleNameOfFieldChange(e,index)}>
+                    <option value="title">Article title</option>
+                    <option value="journal">Article sourse</option>
+                    <option value="author">Author</option>
+                </select>
+                {/*</div>*/}
+
+                {/*<div key={index}>*/}
+                <select name="DropDownAndOr" value={this.state.DropDownAndOr[index]} onChange={(e)=>this.handleDropDownAndOrChange(e,index)}>
+                    <option value="and">And</option>
+                    <option value="or">Or</option>
+                    <option value="not">Not</option>
+                    <option value="nor">Nor</option>
+                </select>
+                {/*</div>*/}
+
+                {/*<div  style={{}} key={index}>*/}
+
+                <select  name="Operator" value={this.state.Operator[index]} onChange={(e)=>this.handleOperatorChange(e,index)}>
+                    <option value="Contains">Contains</option>
+                    <option value="Does not contains">Does not contains</option>
+                    <option value="Begin with">Begin with</option>
+                    <option value="Ends with">Ends with</option>
+                    <option value="Is equals to">Is equals to</option>
+                    <option value="Is less than">Is less than</option>
+                    <option value="More than or equal to">More than or equal to</option>
+                </select>
+
+                {/*</div>*/}
+
+                <div  className={index} >
+                    {console.log("*******************************************index 1111 " + index)}
+                    <input type="search" onChange={(e) => this.handleTextinputChange(e, index)}  />
+                    {console.log("*******************************************index 2222 " + index)}
+                    <button onClick={() => this.handleTextinputRemove(index)} className="button">Remove Text</button>
+                </div>
+            </div>
+            arr.push(optionHtmlTag);
+
+        }
+
+        var str = arr.map((item, index) => {
+
+            return <div>{item}</div>
+        })
+        // console.log(JSON.stringify(arr));
+        const element = (<div>{str}</div>);
+        ReactDOM.render(element, document.getElementById('optionDIV'));
+    }
+
     //general several button options
-    AddGenarl(){
+    AddGenarl() {
+
+
         this.addNameOfField();
         this.addDropDownAndOr();
         this.addOperator();
         this.addText();
-
+        this.ColumnManage(true);
     }
 
     RemoveGenarl(One){
@@ -204,6 +288,7 @@ export default class Searchtest extends Component {
         this.handleDropDownAndOrRemove(One);
         this.handleOperatorRemove(One);
         this.handleTextinputRemove(One);
+        this.ColumnManage(false);
     }
 
     handletimeChange(e){
@@ -220,6 +305,10 @@ export default class Searchtest extends Component {
         event.preventDefault();
     }
 
+    componentDidMount() {
+        this.ColumnManage(true);
+    }
+
     render() {
         return (
 
@@ -229,83 +318,9 @@ export default class Searchtest extends Component {
                 Date Range: <input type="date" name="StartDate" value={this.state.time} onChange={this.handletimeChange}/> to
                 <input type="date" name="EndDate" value={this.state.Endtime} onChange={this.handleEndtimeChange}/>
                 <p></p>
+                <div id="optionDIV">
 
-                {/* name of filed select options  */}
-
-                {
-                    this.state.NameOfField.map((NameOfFieldInfo, indexNameOfField)=>{
-
-                        return (
-                            //<div className={indexNameOfField}>
-                            <select name="NameOfField" value={NameOfFieldInfo} onChange={(e) => this.handleNameOfFieldChange(e, indexNameOfField)} key={indexNameOfField}>
-                                <option value="title">Article title</option>
-                                <option value="journal">Article source</option>
-                                <option value="author">Author</option>
-                            </select>
-                            //</div>
-                        )
-                    })
-                }
-                {/* Drop down of the And and Or select option */}
-                {
-                    this.state.DropDownAndOr.map((DropDownAndOrInfo, indexDropDownAndOr)=>{
-
-                        return (
-                            //<div className={indexDropDownAndOr}>
-                            <select name="DropDownAndOr" value={DropDownAndOrInfo} onChange={(e) => this.handleDropDownAndOrChange(e, indexDropDownAndOr)} key={indexDropDownAndOr}>
-                                <option value="and">And</option>
-                                <option value="or">Or</option>
-                                <option value="not">And not</option>
-                                <option value="nor">Or not</option>
-                            </select>
-                            //</div>
-                        )
-                    })
-
-                }
-
-                {/* The operator select option */}
-                {
-                    this.state.Operator.map((OperatorInfo, indexOperator)=>{
-
-                        return(
-
-                            //<div className={indexOperator}>
-
-                            <select name="Operator" value={OperatorInfo} onChange={(e) => this.handleOperatorChange(e, indexOperator)} key={indexOperator}>
-                                <option value="Contains">Contains</option>
-                                <option value="Does not contains">Does not contains</option>
-                                <option value="Begin with">Begin with</option>
-                                <option value="Ends with">Ends with</option>
-                                <option value="Is equals to">Is equals to</option>
-                                <option value="Is less than">Is less than</option>
-                                <option value="More than or equal to">More than or equal to</option>
-                            </select>
-
-
-                            //</div>
-
-                        )
-                    })
-                }
-
-                {/* <button onClick={(e)=>this.AddGenarl(e)}>addText</button> */}
-                {
-                    this.state.Textinput.map((Text, index)=>{
-                        return(
-                            <div  className={index} >
-
-                                <input type="search" onChange={(e) => this.handleTextinputChange(e, index)} value={Text} />
-
-                                <button onClick={() => this.handleTextinputRemove(index)} className="button">Remove Text</button>
-
-                            </div>
-                        )
-
-                    })
-
-                }
-
+                </div>
                 <button onClick={(e)=>this.AddGenarl(e)}>Add</button>
                 <button onClick={(e) => this.RemoveGenarl(e)}>Remove</button>
                 <input type="submit" value="Submit" onClick={() => this.generateQuery()} />
