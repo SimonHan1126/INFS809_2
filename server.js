@@ -37,7 +37,7 @@ const articleRouter = require("./routes/articles");
 app.use("/articles", articleRouter);
 
 const reactRouter = require("./routes/reactrouter");
-app.use("*", reactRouter);
+app.use("/", reactRouter);
 
 const usersRouter = require("./routes/users");
 app.use("/users", usersRouter);
@@ -49,8 +49,6 @@ const whitelistRouter = require("./routes/whitelist");
 app.use("/whitelist", whitelistRouter);
 
 //This is code for serving react through express
-
-app.use(express.static(path.join(__dirname, "client/build")));
 
 // if (process.env.NODE_ENV === "production") {
 //   app.use(express.static(path.join(__dirname, "client/build")));
